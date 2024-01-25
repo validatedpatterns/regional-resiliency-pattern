@@ -3,7 +3,7 @@
 *Regional Resiliency Pattern* is a [Validated Pattern][vp] derived from the [Multicluster DevSevOps Pattern][devsecops].
 Including the [Regional DR][regional] solution from [Red Hat OpenShift Data Foundation][odf] and the
 [Regional DR Trigger Operator][rdrtrigger]. Used for automated application failover between
-[Red Had Advanced Cluster Management][acm] _Managed Clusters_.
+[Red Had Advanced Cluster Management][acm] *Managed Clusters*.
 
 <details>
 <summary>Click for operator update instructions</summary>
