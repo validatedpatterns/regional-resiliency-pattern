@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "required": [
+        "operator"
+    ],
+    "properties": {
+        "operator": {
+            "type": "object",
+            "required": [
+                "replicas",
+                "kube_rbac_proxy",
+                "rdrtrigger"
+            ],
+            "properties": {
+                "replicas": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "kube_rbac_proxy": {
+                    "$ref": "#/$defs/container"
+                },
+                "rdrtrigger": {
+                    "$ref": "#/$defs/container"
+                }
+            }
+        }
+    },
+    "$defs": {
+        "container": {
+            "type": "object",
+            "required": [
+                "image",
+                "imagePullPolicy",
+                "resources"
+            ],
+            "image": {
+                "type": "string"
+            },
+            "imagePullPolicy": {
+                "type": "string",
+                "pattern": "^(Always|Never|IfNotPresent)$"
+            },
+            "properties": {
+                "resources": {
+                    "$ref": "#/$defs/resources"
+                }
+            }
+        },
+        "resources": {
+            "type": "object",
+            "required": [
+                "limits",
+                "requests"
+            ],
+            "properties": {
+                "limits": {
+                    "$ref": "#/$defs/memcpu"
+                },
+                "requests": {
+                    "$ref": "#/$defs/memcpu"
+                }
+            }
+        },
+        "memcpu": {
+            "type": "object",
+            "required": [
+                "cpu",
+                "memory"
+            ],
+            "properties": {
+                "cpu": {
+                    "type": "string",
+                    "pattern": "^(([1-9]+|[0-9]+[.][0-9]+)|([0-9]+m))$"
+                },
+                "memory": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]+([EPTGMk]|([EPTGMK]i))$"
+                }
+            }
+        }
+    }
+}

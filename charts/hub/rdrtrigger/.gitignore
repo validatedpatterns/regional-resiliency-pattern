@@ -1,0 +1,4 @@
+bin
+*.tgz
+operator_tmp
+regional-dr-trigger-operator*

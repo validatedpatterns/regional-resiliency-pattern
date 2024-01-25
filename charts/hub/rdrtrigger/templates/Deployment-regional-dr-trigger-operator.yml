@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  name: regional-dr-trigger-operator
+  namespace: {{ .Values.operator.namespace }}
+spec:
+  replicas: {{ .Values.operator.replicas | int }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: operator
+      app.kubernetes.io/part-of: regional-dr-trigger-operator
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: rdrtrigger
+      labels:
+        app.kubernetes.io/component: operator
+        app.kubernetes.io/instance: rdrtrigger-0.1.0
+        app.kubernetes.io/managed-by: kustomize
+        app.kubernetes.io/name: regional-dr-trigger-operator
+        app.kubernetes.io/part-of: regional-dr-trigger-operator
+        app.kubernetes.io/version: 0.1.0
+    spec:
+      containers:
+        - args:
+            - --secure-listen-address=0.0.0.0:8383
+            - --upstream=http://127.0.0.1:8080/
+            - --logtostderr=true
+            - --v=0
+          image: {{ .Values.operator.kube_rbac_proxy.image }}
+          imagePullPolicy: {{ .Values.operator.kube_rbac_proxy.imagePullPolicy }}
+          name: kube-rbac-proxy
+          ports:
+            - containerPort: 8383
+              name: https
+              protocol: TCP
+          resources: {{ .Values.operator.kube_rbac_proxy.resources | toYaml | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+        - args:
+            - rdrtrigger
+            - --leader-election
+            - --probe-address=:8081
+            - --metric-address=127.0.0.1:8080
+          image: {{ .Values.operator.rdrtrigger.image }}
+          imagePullPolicy: {{ .Values.operator.rdrtrigger.imagePullPolicy }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          name: rdrtrigger
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources: {{ .Values.operator.rdrtrigger.resources | toYaml | nindent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: regional-dr-trigger-sa

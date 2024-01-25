@@ -1,0 +1,24 @@
+# Copyright (c) 2023 Red Hat, Inc.
+operator:
+  replicas: 1
+  kube_rbac_proxy:
+    image: gcr.io/kubebuilder/kube-rbac-proxy:v0.14.1
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+      requests:
+        cpu: 5m
+        memory: 64Mi
+  rdrtrigger:
+    image: quay.io/ecosystem-appeng/regional-dr-trigger-operator:0.1.0
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+      requests:
+        cpu: 10m
+        memory: 64Mi
+  namespace: regional-dr-trigger
