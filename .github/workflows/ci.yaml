@@ -26,8 +26,8 @@ jobs:
       - name: Get Helm version
         id: helm
         run: |
-          version=$(cat Makefile | grep "VERSION_HELM =" | cut -d'=' -f2 | xargs)
-          echo "version=$version" >> $GITHUB_OUTPUT
+          version=$(grep "VERSION_HELM =" Makefile | cut -d'=' -f2 | xargs)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Install helm
         uses: azure/setup-helm@v3
