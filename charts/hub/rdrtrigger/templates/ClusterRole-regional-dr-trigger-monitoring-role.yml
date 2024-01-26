@@ -1,0 +1,44 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  name: regional-dr-trigger-monitoring-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - nonResourceURLs:
+      - /metrics
+    verbs:
+      - get

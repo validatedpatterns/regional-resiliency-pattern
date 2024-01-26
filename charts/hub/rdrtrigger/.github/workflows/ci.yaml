@@ -1,0 +1,41 @@
+---
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - templates/**
+      - Chart.yaml
+      - values.schema.json
+      - values.yaml
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    name: Lint and test the project
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+
+      - name: Get Helm version
+        id: helm
+        run: |
+          version=$(grep "VERSION_HELM =" Makefile | cut -d'=' -f2 | xargs)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Install helm
+        uses: azure/setup-helm@v3
+        with:
+          version: ${{ steps.helm.outputs.version }}
+
+      - name: Lint chart
+        run: helm lint .
+
+      - name: Test templates
+        run: helm template . > /dev/null

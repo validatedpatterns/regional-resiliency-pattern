@@ -15,7 +15,8 @@ clusterGroup:
   - devsecops-ci
   - openshift-storage
   - quay-enterprise
-  
+  - regional-dr-trigger
+
 #  subscriptions:  OpenShift Operator subscriptions from OLM/OperatorHub
 #  - name: the Operator package name (required)
 #    namespace: expected namespace as specified by Operator (defaults to openshift-operators)
@@ -97,8 +98,14 @@ clusterGroup:
       ignoreDifferences:
       - group: operators.openshift.io
         kind: Console
-        jsonPointers: 
+        jsonPointers:
           - /spec/plugins
+
+    rdrtrigger:
+      name: regional-dr-trigger
+      namespace: regional-dr-trigger
+      project: opp
+      path: charts/hub/rdrtrigger
 
     vault:
       name: vault
