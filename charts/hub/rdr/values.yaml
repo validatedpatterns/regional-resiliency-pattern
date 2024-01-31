@@ -1,0 +1,17 @@
+## TODO: Don't create ManagedClusters
+## TODO: Don't create Namespace
+## TODO: Check ManagedClusterSet
+## TODO: Remove busybox and pacman applications
+
+
+regionalDR:
+  - name: regional-setup
+    primary:
+      name: dr-primary
+
+    secondaries:
+      - name: dr-secondary
+
+    secretStore:
+      name: vault-backend
+      kind: ClusterSecretStore

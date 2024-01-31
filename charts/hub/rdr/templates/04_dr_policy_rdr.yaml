@@ -1,0 +1,43 @@
+{{- range .Values.regionalDR }}
+apiVersion: ramendr.openshift.io/v1alpha1
+kind: DRPolicy
+metadata:
+  name: {{ .name }}-'drsync15m'
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+spec:
+  drClusters:
+    - {{ .primary.name }}
+{{- range .secondaries }}
+    - {{ .name }}
+{{- end }}
+  schedulingInterval: 15m
+---
+apiVersion: ramendr.openshift.io/v1alpha1
+kind: DRPolicy
+metadata:
+  name: {{ .name }}-'drsync5m'
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+spec:
+  drClusters:
+    - {{ .primary.name }}
+{{- range .secondaries }}
+    - {{ .name }}
+{{- end }}
+  schedulingInterval: 5m
+---
+apiVersion: ramendr.openshift.io/v1alpha1
+kind: DRPolicy
+metadata:
+  name: {{ .name }}-'drsync2m'
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+spec:
+  drClusters:
+    - {{ .primary.name }}
+{{- range .secondaries }}
+    - {{ .name }}
+{{- end }}
+  schedulingInterval: 2m
+{{- end }}

@@ -15,6 +15,7 @@ clusterGroup:
   - devsecops-ci
   - openshift-storage
   - quay-enterprise
+  - regional-dr
   - regional-dr-trigger
 
 #  subscriptions:  OpenShift Operator subscriptions from OLM/OperatorHub
@@ -37,6 +38,14 @@ clusterGroup:
     odf:
       name: odf-operator
       namespace: openshift-storage
+
+    odf-multicluster-orchestrator:
+      name: odf-multicluster-orchestrator
+      namespace: openshift-operators
+
+    drhub:
+      name: odr-hub-operator
+      namespace: openshift-dr-system
 
     quay:
       name: quay-operator
@@ -100,6 +109,12 @@ clusterGroup:
         kind: Console
         jsonPointers:
           - /spec/plugins
+
+    rdr:
+      name: rdr
+      namespace: regional-dr
+      project: opp
+      path: charts/hub/rdr
 
     rdrtrigger:
       name: regional-dr-trigger

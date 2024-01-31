@@ -1,0 +1,44 @@
+{{- range .Values.regionalDR }}
+---
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: {{ .primary.name }}
+  namespace: {{ .primary.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  applicationManager:
+    enabled: true
+  certPolicyController:
+    enabled: true
+  iamPolicyController:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true
+
+{{- range .secondaries }}
+---
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: {{ .name }}
+  namespace: {{ .name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  applicationManager:
+    enabled: true
+  certPolicyController:
+    enabled: true
+  iamPolicyController:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true
+
+{{- end }}
+{{- end }}
