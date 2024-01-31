@@ -12,6 +12,7 @@ spec:
   hubAcceptsClient: true
 
 {{- range .secondaries }}
+---
 apiVersion: cluster.open-cluster-management.io/v1
 kind: ManagedCluster
 metadata:
