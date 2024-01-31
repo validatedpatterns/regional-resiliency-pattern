@@ -36,10 +36,6 @@ clusterGroup:
       name: rhacs-operator  #packageName
       namespace: openshift-operators # operator namespace
 
-    odf:
-      name: odf-operator
-      namespace: openshift-storage
-
     odf-multicluster-orchestrator:
       name: odf-multicluster-orchestrator
       namespace: openshift-operators

@@ -1,0 +1,33 @@
+{{- range .Values.regionalDR }}
+{{- $clusterset := .name }}
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: {{ .primary.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    cloud: auto-detect
+    vendor: auto-detect
+    cluster.open-cluster-management.io/clusterset: {{ $clusterset }}
+    clusterGroup: aws
+spec:
+  hubAcceptsClient: true
+
+{{- range .secondaries }}
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: {{ .name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    cloud: auto-detect
+    vendor: auto-detect
+    cluster.open-cluster-management.io/clusterset: {{ $clusterset }}
+    clusterGroup: aws
+spec:
+  hubAcceptsClient: true
+
+{{- end }}
+{{- end }}
