@@ -17,6 +17,7 @@ clusterGroup:
   - quay-enterprise
   - regional-dr
   - regional-dr-trigger
+  - openshift-dr-system
 
 #  subscriptions:  OpenShift Operator subscriptions from OLM/OperatorHub
 #  - name: the Operator package name (required)
