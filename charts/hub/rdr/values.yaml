@@ -7,10 +7,10 @@
 regionalDR:
   - name: regional-setup
     primary:
-      name: dr-primary
+      name: vp-primary
 
     secondaries:
-      - name: dr-secondary
+      - name: vp-secondary
 
     secretStore:
       name: vault-backend
