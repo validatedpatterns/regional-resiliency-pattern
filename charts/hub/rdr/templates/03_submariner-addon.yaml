@@ -66,7 +66,7 @@ apiVersion: submariner.io/v1alpha1
 kind: Broker
 metadata:
   name: submariner-broker
-  namespace: replica-broker
+  namespace: regional-dr
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
