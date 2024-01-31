@@ -42,7 +42,6 @@ clusterGroup:
 
     drhub:
       name: odr-hub-operator
-      namespace: openshift-dr-system
 
     quay:
       name: quay-operator
