@@ -7,10 +7,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
-    cloud: auto-detect
-    vendor: auto-detect
     cluster.open-cluster-management.io/clusterset: {{ $clusterset }}
-    clusterGroup: aws
 spec:
   hubAcceptsClient: true
 
@@ -22,10 +19,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
-    cloud: auto-detect
-    vendor: auto-detect
     cluster.open-cluster-management.io/clusterset: {{ $clusterset }}
-    clusterGroup: aws
 spec:
   hubAcceptsClient: true
 
