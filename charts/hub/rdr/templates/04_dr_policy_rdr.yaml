@@ -2,7 +2,7 @@
 apiVersion: ramendr.openshift.io/v1alpha1
 kind: DRPolicy
 metadata:
-  name: {{ .name }}-'drsync15m'
+  name: {{ .name }}-drsync15m
   annotations:
     argocd.argoproj.io/sync-wave: "6"
 spec:
@@ -16,7 +16,7 @@ spec:
 apiVersion: ramendr.openshift.io/v1alpha1
 kind: DRPolicy
 metadata:
-  name: {{ .name }}-'drsync5m'
+  name: {{ .name }}-drsync5m
   annotations:
     argocd.argoproj.io/sync-wave: "6"
 spec:
@@ -30,7 +30,7 @@ spec:
 apiVersion: ramendr.openshift.io/v1alpha1
 kind: DRPolicy
 metadata:
-  name: {{ .name }}-'drsync2m'
+  name: {{ .name }}-drsync2m
   annotations:
     argocd.argoproj.io/sync-wave: "6"
 spec:
