@@ -1,5 +1,16 @@
 {{- range .Values.regionalDR }}
 ---
+apiVersion: submariner.io/v1alpha1
+kind: Broker
+metadata:
+  name: submariner-broker
+  namespace: {{ .name }}-broker
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  globalnetEnabled: false
+
+---
 apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
 metadata:
@@ -60,15 +71,3 @@ spec:
 
 {{- end }}
 {{- end }}
-
----
-apiVersion: submariner.io/v1alpha1
-kind: Broker
-metadata:
-  name: submariner-broker
-  namespace: regional-dr
-  annotations:
-    argocd.argoproj.io/sync-wave: "4"
-spec:
-  globalnetEnabled: false
-

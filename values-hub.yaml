@@ -18,6 +18,7 @@ clusterGroup:
   - regional-dr
   - regional-dr-trigger
   - openshift-dr-system
+  - regional-setup-broker
 
 #  subscriptions:  OpenShift Operator subscriptions from OLM/OperatorHub
 #  - name: the Operator package name (required)
