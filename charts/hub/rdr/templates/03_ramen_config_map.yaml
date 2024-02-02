@@ -6,7 +6,7 @@ metadata:
   labels:
     operators.coreos.com/odr-hub-operator.openshift-dr-system: ""
   name: ramen-hub-operator-config
-  namespace: openshift-operators
+  namespace: openshift-dr-system
 data:
   ramen_manager_config.yaml: |
     apiVersion: ramendr.openshift.io/v1alpha1
