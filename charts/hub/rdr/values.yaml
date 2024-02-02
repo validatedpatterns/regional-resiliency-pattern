@@ -11,10 +11,10 @@ regionalDR:
       s3CompatibleEndpoint: https://s3-primary-endpoint
       region: primary
 
-    secondaries:
-      - name: secondary-cluster
-        s3CompatibleEndpoint: https://s3-secondary-endpoint
-        region: secondary
+      #    secondaries:
+      #      - name: secondary-cluster
+      #        s3CompatibleEndpoint: https://s3-secondary-endpoint
+      #        region: secondary
 
     secretStore:
       name: vault-backend
