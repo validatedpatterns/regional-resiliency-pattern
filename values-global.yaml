@@ -1,20 +1,20 @@
 ---
 global:
-	regionalDR:
-		- name: regional-setup
-			primary:
-				name: vp-primary
-				s3CompatibleEndpoint: https://s3.ca-central-1.amazonaws.com
-				region: primary
+  regionalDR:
+    - name: regional-setup
+      primary:
+        name: vp-primary
+        s3CompatibleEndpoint: https://s3.ca-central-1.amazonaws.com
+        region: primary
 
-			secondaries:
-				- name: vp-secondary
-					s3CompatibleEndpoint: https://s3.ca-central-1.amazonaws.com
-					region: secondary
+      secondaries:
+        - name: vp-secondary
+          s3CompatibleEndpoint: https://s3.ca-central-1.amazonaws.com
+          region: secondary
 
-			secretStore:
-				name: vault-backend
-				kind: ClusterSecretStore
+      secretStore:
+        name: vault-backend
+        kind: ClusterSecretStore
 
 
   pattern: multicluster-devsecops
