@@ -7,13 +7,13 @@
 regionalDR:
   - name: regional-setup
     primary:
-      name: primary-cluster
-      s3CompatibleEndpoint: https://s3-primary-endpoint
+      name: vp-primary
+      s3CompatibleEndpoint: https://s3.ca-central-1.amazonaws.com
       region: primary
 
       #    secondaries:
-      #      - name: secondary-cluster
-      #        s3CompatibleEndpoint: https://s3-secondary-endpoint
+      #      - name: vp-secondary
+      #        s3CompatibleEndpoint: https://s3.ca-central-1.amazonaws.com
       #        region: secondary
 
     secretStore:
