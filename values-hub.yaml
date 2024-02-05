@@ -41,10 +41,6 @@ clusterGroup:
       name: odf-multicluster-orchestrator
       namespace: openshift-operators
 
-    drhub:
-      name: odr-hub-operator
-      namespace: openshift-dr-system
-
     quay:
       name: quay-operator
       namespace: openshift-operators
@@ -108,11 +104,11 @@ clusterGroup:
         jsonPointers:
           - /spec/plugins
 
-    rdr:
-      name: rdr
-      namespace: regional-dr
-      project: opp
-      path: charts/hub/rdr
+            #rdr:
+            #  name: rdr
+            #  namespace: regional-dr
+            #  project: opp
+            #  path: charts/hub/rdr
 
     rdrtrigger:
       name: regional-dr-trigger
