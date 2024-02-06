@@ -81,12 +81,6 @@ clusterGroup:
       project: opp
       path: charts/hub/acs/secured
 
-    storage:
-      name: storage
-      namespace: openshift-storage
-      project: opp
-      path: charts/hub/odf
-
     quay-registry:
       name: quay-registry
       namespace: quay-enterprise
