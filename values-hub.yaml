@@ -99,7 +99,7 @@ clusterGroup:
           - /spec/plugins
 
     rdr:
-      name: rdr
+      name: regional-dr
       namespace: regional-dr
       project: opp
       path: charts/hub/rdr
