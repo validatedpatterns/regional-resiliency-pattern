@@ -104,11 +104,11 @@ clusterGroup:
         jsonPointers:
           - /spec/plugins
 
-            #rdr:
-            #  name: rdr
-            #  namespace: regional-dr
-            #  project: opp
-            #  path: charts/hub/rdr
+    rdr:
+      name: rdr
+      namespace: regional-dr
+      project: opp
+      path: charts/hub/rdr
 
     rdrtrigger:
       name: regional-dr-trigger

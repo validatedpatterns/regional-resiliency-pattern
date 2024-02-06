@@ -1,28 +1,38 @@
 {{- range .Values.regionalDR }}
 {{- $clusterset := .name }}
-apiVersion: cluster.open-cluster-management.io/v1
-kind: ManagedCluster
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: {{ .primary.name }}
+  name: add-clusters-to-managedclusterset
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
-  labels:
-    cluster.open-cluster-management.io/clusterset: {{ $clusterset }}
+    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/hook: "PostSync"
+    #argocd.argoproj.io/hook-delete-policy: HookSucceeded
+  namespace: regional-dr
 spec:
-  hubAcceptsClient: true
-
-{{- range .secondaries }}
----
-apiVersion: cluster.open-cluster-management.io/v1
-kind: ManagedCluster
-metadata:
-  name: {{ .name }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-  labels:
-    cluster.open-cluster-management.io/clusterset: {{ $clusterset }}
-spec:
-  hubAcceptsClient: true
-
-{{- end }}
+  template:
+    spec:
+      containers:
+      - name: clusterset-labeler
+        command:
+            - /bin/bash
+            - -c
+            - |
+              echo "{{ .primary.name }}" > /tmp/cluster_list
+              {{- range .secondaries }}
+              echo "{{ .name }}" >> /tmp/cluster_list
+              {{- end }}
+              for cluster in $(cat /tmp/cluster_list); do
+                echo "Labeling ManagedCluster $cluster to become members of ManagedClusterSet {{ $clusterset }}"
+                oc label managedCluster $cluster cluster.open-cluster-management.io/clusterset={{ $clusterset }} --overwrite
+                if [ $? = 0 ]
+                then
+                    echo "ManagedCluster $cluster successfully assigned to {{ $clusterset }}"
+                else
+                    echo "Failed to label ManagedCluster"
+                fi
+              done
+        image: registry.redhat.io/openshift4/ose-cli:v4.14
+      restartPolicy: Never
+      serviceAccount: patch-sa
 {{- end }}
