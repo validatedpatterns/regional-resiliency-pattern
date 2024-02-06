@@ -1,5 +1,6 @@
 {{- range .Values.regionalDR }}
 {{- $clusterset := .name }}
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
