@@ -7,7 +7,6 @@ metadata:
   name: add-clusters-to-managedclusterset
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-    argocd.argoproj.io/hook: "PostSync"
     #argocd.argoproj.io/hook-delete-policy: HookSucceeded
   namespace: regional-dr
 spec:
