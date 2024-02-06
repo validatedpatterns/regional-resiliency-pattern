@@ -33,6 +33,5 @@ spec:
                 fi
               done
         image: registry.redhat.io/openshift4/ose-cli:v4.14
-      restartPolicy: Never
-      serviceAccount: patch-sa
+      restartPolicy: OnFailure
 {{- end }}
