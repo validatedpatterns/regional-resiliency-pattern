@@ -4,7 +4,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: add-clusters-to-managedclusterset
+  name: cluster-labeler
   annotations:
     argocd.argoproj.io/sync-wave: "0"
     #argocd.argoproj.io/hook-delete-policy: HookSucceeded
