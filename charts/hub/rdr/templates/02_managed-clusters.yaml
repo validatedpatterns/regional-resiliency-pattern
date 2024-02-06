@@ -34,6 +34,7 @@ spec:
               done
         image: registry.redhat.io/openshift4/ose-cli:v4.14
       restartPolicy: OnFailure
+      serviceAccount: cluster-labeler
 {{- end }}
 
 
