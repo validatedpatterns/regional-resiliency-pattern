@@ -1,5 +1,6 @@
 regionalDR:
   - name: regional-setup
+    globalnetEnabled: false # Warning! Enable this feature if your clusters have overlapping CIDR blocks
     primary:
       name: primary
       s3CompatibleEndpoint: https://primary.s3.endpoint
