@@ -40,6 +40,7 @@ This Pattern has the capability to deploy several RegionalDR deployments and
 orchestrate them from the same HubCluster. In addition, each RegionalDR supports
 one primary cluster and several secondary clusters.
 
+Special thanks to Gaurav Midha (gmidha1) for doing a great work on this pattern.
 
 
 ## Prerequisites
