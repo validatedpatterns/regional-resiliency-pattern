@@ -3,6 +3,11 @@ name: Super linter
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+  packages: read
+  statuses: write
+
 jobs:
   build:
     # Name the Job
