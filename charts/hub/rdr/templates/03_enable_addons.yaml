@@ -6,7 +6,7 @@ metadata:
   name: {{ .primary.name }}
   namespace: {{ .primary.name }}
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   applicationManager:
     enabled: true
@@ -27,7 +27,7 @@ metadata:
   name: {{ .name }}
   namespace: {{ .name }}
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   applicationManager:
     enabled: true

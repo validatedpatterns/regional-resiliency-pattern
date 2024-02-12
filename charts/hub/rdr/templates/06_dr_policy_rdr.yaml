@@ -4,7 +4,7 @@ kind: DRPolicy
 metadata:
   name: {{ .name }}-drsync15m
   annotations:
-    argocd.argoproj.io/sync-wave: "6"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   drClusters:
     - {{ .primary.name }}
@@ -18,7 +18,7 @@ kind: DRPolicy
 metadata:
   name: {{ .name }}-drsync5m
   annotations:
-    argocd.argoproj.io/sync-wave: "6"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   drClusters:
     - {{ .primary.name }}
@@ -32,7 +32,7 @@ kind: DRPolicy
 metadata:
   name: {{ .name }}-drsync2m
   annotations:
-    argocd.argoproj.io/sync-wave: "6"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   drClusters:
     - {{ .primary.name }}
