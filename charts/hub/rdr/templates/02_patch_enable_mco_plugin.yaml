@@ -75,4 +75,4 @@ spec:
               fi
         image: registry.redhat.io/openshift4/ose-cli:v4.7
       restartPolicy: Never
-      serviceAccount: patch-sa
+      serviceAccountName: patch-sa
