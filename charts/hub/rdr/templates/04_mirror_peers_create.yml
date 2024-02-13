@@ -1,6 +1,6 @@
 {{- range .Values.regionalDR }}
 {{ $rdrName := .name }}
-{{ $primary := .primary.name }}
+{{ $primary := .primary }}
 {{- range .secondaries }}
 ---
 apiVersion: multicluster.odf.openshift.io/v1alpha1
@@ -8,14 +8,14 @@ kind: MirrorPeer
 metadata:
   name: mirrorpeer-{{ $rdrName }}-{{ $primary }}-{{ .name }}
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   items:
   - clusterName: {{ $primary }}
     storageClusterRef:
       name: ocs-storagecluster
       namespace: openshift-storage
-  - clusterName: {{ .name }}
+  - clusterName: {{ . }}
     storageClusterRef:
       name: ocs-storagecluster
       namespace: openshift-storage

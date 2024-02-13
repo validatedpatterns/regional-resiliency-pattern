@@ -18,7 +18,6 @@ clusterGroup:
   - regional-dr
   - regional-dr-trigger
   - openshift-dr-system
-  - regional-setup-broker
 
 #  subscriptions:  OpenShift Operator subscriptions from OLM/OperatorHub
 #  - name: the Operator package name (required)
@@ -36,6 +35,10 @@ clusterGroup:
     acs:
       name: rhacs-operator  #packageName
       namespace: openshift-operators # operator namespace
+
+    odf:
+      name: odf-operator
+      namespace: openshift-storage
 
     odf-multicluster-orchestrator:
       name: odf-multicluster-orchestrator
@@ -80,6 +83,12 @@ clusterGroup:
       namespace: stackrox
       project: opp
       path: charts/hub/acs/secured
+
+    storage:
+      name: storage
+      namespace: openshift-storage
+      project: opp
+      path: charts/hub/odf
 
     quay-registry:
       name: quay-registry
@@ -153,6 +162,66 @@ clusterGroup:
 
 # This section is used by ACM
   managedClusterGroups:
+  - name: resilient
+    helmOverrides:
+    - name: clusterGroup.isHubCluster
+      value: "false"
+    clusterSelector:
+      matchLabels:
+        clusterGroup: resilient
+      matchExpressions:
+      - key: vendor
+        operator: In
+        values:
+          - OpenShift
+    clusterPools:
+      # example of pool for primary spokes
+      aws-ca-central-1:
+        name: aws-region-ca
+        openshiftVersion: 4.12.49
+        baseDomain: fsi-partner.rhecoeng.com
+        platform:
+          aws:
+            region: ca-central-1
+        clusters:
+          - customspoke1
+        controlPlane:
+          platform:
+            aws:
+              type: m5.2xlarge
+              zones:
+                - ca-central-1a
+        workers:
+          replicas: 3
+          platform:
+            aws:
+              type: m5.xlarge
+              zones:
+                - ca-central-1a
+      # example of pool for secondary spokes
+      aws-eu-central-1:
+        name: aws-region-eu
+        openshiftVersion: 4.12.49
+        baseDomain: fsi-partner.rhecoeng.com
+        platform:
+          aws:
+            region: ca-central-1
+        clusters:
+          - customspoke1bu
+        controlPlane:
+          platform:
+            aws:
+              type: m5.2xlarge
+              zones:
+                - ca-central-1a
+        workers:
+          replicas: 3
+          platform:
+            aws:
+              type: m5.xlarge
+              zones:
+                - ca-central-1a
+
   - name: development
     helmOverrides:
     - name: clusterGroup.isHubCluster

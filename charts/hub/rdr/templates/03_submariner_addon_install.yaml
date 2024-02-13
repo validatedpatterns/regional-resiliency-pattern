@@ -1,12 +1,18 @@
 {{- range .Values.regionalDR }}
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .name }}-broker
+
+---
 apiVersion: submariner.io/v1alpha1
 kind: Broker
 metadata:
   name: submariner-broker
   namespace: {{ .name }}-broker
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   globalnetEnabled: {{ .globalnetEnabled | default false }}
 
@@ -15,9 +21,9 @@ apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
 metadata:
   name: submariner
-  namespace: {{ .primary.name }}
+  namespace: {{ .primary }}
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   installNamespace: submariner-operator
 ---
@@ -25,9 +31,9 @@ apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
   name: submariner
-  namespace: {{ .primary.name }}
+  namespace: {{ .primary }}
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   gatewayConfig:
     gateways: 1
@@ -45,9 +51,9 @@ apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
 metadata:
   name: submariner
-  namespace: {{ .name }}
+  namespace: {{ . }}
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   installNamespace: submariner-operator
 ---
@@ -55,9 +61,9 @@ apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
   name: submariner
-  namespace: {{ .name }}
+  namespace: {{ . }}
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   gatewayConfig:
     gateways: 1
