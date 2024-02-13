@@ -6,7 +6,7 @@
 apiVersion: multicluster.odf.openshift.io/v1alpha1
 kind: MirrorPeer
 metadata:
-  name: mirrorpeer-{{ $rdrName }}-{{ $primary }}-{{ .name }}
+  name: mirrorpeer-{{ $rdrName }}-{{ $primary }}-{{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
