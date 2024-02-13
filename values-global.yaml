@@ -9,7 +9,7 @@ regionalDR:
         region: secondary
 
 global:
-  pattern: multicluster-devsecops
+  pattern: regional-resiliency-pattern
 
   cicd:
     namespace: devsecops-ci
