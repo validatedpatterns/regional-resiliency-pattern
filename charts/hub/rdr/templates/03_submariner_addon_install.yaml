@@ -1,5 +1,11 @@
 {{- range .Values.regionalDR }}
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .name }}-broker
+
+---
 apiVersion: submariner.io/v1alpha1
 kind: Broker
 metadata:
