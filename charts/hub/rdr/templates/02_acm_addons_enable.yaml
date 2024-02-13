@@ -3,8 +3,8 @@
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
-  name: {{ .primary.name }}
-  namespace: {{ .primary.name }}
+  name: {{ .primary }}
+  namespace: {{ .primary }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
@@ -24,8 +24,8 @@ spec:
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
-  name: {{ .name }}
-  namespace: {{ .name }}
+  name: {{ . }}
+  namespace: {{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:

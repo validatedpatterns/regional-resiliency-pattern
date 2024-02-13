@@ -1,12 +1,9 @@
 ---
 regionalDR:
   - name: regional-setup
-    primary:
-      name: vp-primary
-      region: primary
+    primary: customspoke1
     secondaries:
-      - name: vp-secondary
-        region: secondary
+      - customspoke1bu
 
 global:
   pattern: regional-resiliency-pattern

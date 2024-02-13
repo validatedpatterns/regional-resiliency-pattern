@@ -21,7 +21,7 @@ apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
 metadata:
   name: submariner
-  namespace: {{ .primary.name }}
+  namespace: {{ .primary }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -31,7 +31,7 @@ apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
   name: submariner
-  namespace: {{ .primary.name }}
+  namespace: {{ .primary }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -51,7 +51,7 @@ apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
 metadata:
   name: submariner
-  namespace: {{ .name }}
+  namespace: {{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -61,7 +61,7 @@ apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
   name: submariner
-  namespace: {{ .name }}
+  namespace: {{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:

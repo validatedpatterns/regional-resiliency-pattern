@@ -7,9 +7,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "5"
 spec:
   drClusters:
-    - {{ .primary.name }}
-{{- range .secondaries }}
-    - {{ .name }}
+    - {{ .primary }}
+{{- if .secondaries }}
+    {{ .secondaries }}
 {{- end }}
   schedulingInterval: 15m
 ---
@@ -21,9 +21,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "5"
 spec:
   drClusters:
-    - {{ .primary.name }}
-{{- range .secondaries }}
-    - {{ .name }}
+    - {{ .primary }}
+{{- if .secondaries }}
+    {{ .secondaries }}
 {{- end }}
   schedulingInterval: 5m
 ---
@@ -35,9 +35,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "5"
 spec:
   drClusters:
-    - {{ .primary.name }}
-{{- range .secondaries }}
-    - {{ .name }}
+    - {{ .primary }}
+{{- if .secondaries }}
+    {{ .secondaries }}
 {{- end }}
   schedulingInterval: 2m
 {{- end }}

@@ -1,9 +1,6 @@
 regionalDR:
   - name: regional-setup
-    globalnetEnabled: false # Warning! Enable this feature if your clusters have overlapping CIDR blocks
-    primary:
-      name: primary
-      region: primary
+    globalnetEnabled: true # Warning! Enable this feature if your clusters have overlapping CIDR blocks
+    primary: primary-name
     secondaries:
-      - name: secondary
-        region: secondary
+      - first-secondary
