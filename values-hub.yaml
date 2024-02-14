@@ -176,13 +176,13 @@ clusterGroup:
           - OpenShift
     clusterPools:
       # example of pool for primary spokes
-      aws-ca-central-1:
+      aws-eu-central-1:
         name: aws-region-ca
         openshiftVersion: 4.12.49
         baseDomain: fsi-partner.rhecoeng.com
         platform:
           aws:
-            region: ca-central-1
+            region: eu-central-1
         clusters:
           - customspoke1
         controlPlane:
@@ -190,22 +190,22 @@ clusterGroup:
             aws:
               type: m5.2xlarge
               zones:
-                - ca-central-1a
+                - eu-central-1a
         workers:
           replicas: 3
           platform:
             aws:
               type: m5.xlarge
               zones:
-                - ca-central-1a
+                - eu-central-1a
       # example of pool for secondary spokes
-      aws-eu-central-1:
+      aws-eu-central-2:
         name: aws-region-eu
         openshiftVersion: 4.12.49
         baseDomain: fsi-partner.rhecoeng.com
         platform:
           aws:
-            region: ca-central-1
+            region: eu-central-1
         clusters:
           - customspoke1bu
         controlPlane:
@@ -213,14 +213,14 @@ clusterGroup:
             aws:
               type: m5.2xlarge
               zones:
-                - ca-central-1a
+                - eu-central-1a
         workers:
           replicas: 3
           platform:
             aws:
               type: m5.xlarge
               zones:
-                - ca-central-1a
+                - eu-central-1a
 
   - name: development
     helmOverrides:
