@@ -18,9 +18,9 @@ spec:
             - /bin/bash
             - -c
             - |
-              echo "{{ .primary.name }}" > /tmp/cluster_list
+              echo "{{ .primary }}" > /tmp/cluster_list
               {{- range .secondaries }}
-              echo "{{ .name }}" >> /tmp/cluster_list
+              echo "{{ . }}" >> /tmp/cluster_list
               {{- end }}
               for cluster in $(cat /tmp/cluster_list); do
                 echo "Labeling ManagedCluster $cluster to become members of ManagedClusterSet {{ $clusterset }}"
