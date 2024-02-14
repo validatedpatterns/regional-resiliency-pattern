@@ -1,9 +1,9 @@
 ---
 regionalDR:
   - name: regional-setup
-    primary: customspoke1
+    primary: aws-region-ca-resilient-q2m99
     secondaries:
-      - customspoke1bu
+      - aws-region-eu-resilient-9wzcd
 
 global:
   pattern: regional-resiliency-pattern
