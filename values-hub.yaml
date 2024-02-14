@@ -200,7 +200,7 @@ clusterGroup:
                 - eu-central-1a
       # example of pool for secondary spokes
       aws-eu-central-2:
-        name: resilient
+        name: aws-eu-central
         openshiftVersion: 4.12.49
         baseDomain: fsi-partner.rhecoeng.com
         platform:
