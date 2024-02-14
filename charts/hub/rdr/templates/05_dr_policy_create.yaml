@@ -8,8 +8,8 @@ metadata:
 spec:
   drClusters:
     - {{ .primary }}
-{{- if .secondaries }}
-    {{ .secondaries }}
+{{- range .secondaries }}
+    - {{ . }}
 {{- end }}
   schedulingInterval: 15m
 ---
@@ -22,8 +22,8 @@ metadata:
 spec:
   drClusters:
     - {{ .primary }}
-{{- if .secondaries }}
-    {{ .secondaries }}
+{{- range .secondaries }}
+    - {{ . }}
 {{- end }}
   schedulingInterval: 5m
 ---
@@ -36,8 +36,8 @@ metadata:
 spec:
   drClusters:
     - {{ .primary }}
-{{- if .secondaries }}
-    {{ .secondaries }}
+{{- range .secondaries }}
+    - {{ . }}
 {{- end }}
   schedulingInterval: 2m
 {{- end }}
