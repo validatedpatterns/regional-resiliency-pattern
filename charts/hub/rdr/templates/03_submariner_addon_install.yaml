@@ -1,27 +1,34 @@
 {{- range .Values.regionalDR }}
+{{- $dr := . }}
+
+{{- range .Values.clusterGroup.managedClusterGroups }}
+{{- $group := . }}
+{{- if $group.clusterPools }}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .name }}-broker
-
+  name: {{ $group.name }}-broker
 ---
 apiVersion: submariner.io/v1alpha1
 kind: Broker
 metadata:
   name: submariner-broker
-  namespace: {{ .name }}-broker
+  namespace: {{ $group.name }}-broker
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
-  globalnetEnabled: {{ .globalnetEnabled | default false }}
+  globalnetEnabled: {{ $dr.globalnetEnabled | default false }}
+
+{{- end }}{{- /* if $group.clusterPools */}}
+{{- end }}{{- /* range .Values.clusterGroup.managedClusterGroups */}}
 
 ---
 apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
 metadata:
   name: submariner
-  namespace: {{ .primary }}
+  namespace: {{ $dr.primary }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -31,7 +38,7 @@ apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
   name: submariner
-  namespace: {{ .primary }}
+  namespace: {{ $dr.primary }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -45,13 +52,14 @@ spec:
   credentialsSecret:
     name: aws-secret
 
-{{- range .secondaries }}
+{{- range $dr.secondaries }}
+{{- $secondary := . }}
 ---
 apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
 metadata:
   name: submariner
-  namespace: {{ . }}
+  namespace: {{ $secondary }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -61,7 +69,7 @@ apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
   name: submariner
-  namespace: {{ . }}
+  namespace: {{ $secondary }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -75,5 +83,5 @@ spec:
   credentialsSecret:
     name: aws-secret
 
-{{- end }}
-{{- end }}
+{{- end }}{{- /* range .secondaries */}}
+{{- end }}{{- /* range .Values.regionalDR */}}
