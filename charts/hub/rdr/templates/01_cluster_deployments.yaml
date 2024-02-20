@@ -110,7 +110,6 @@ spec:
   baseDomain: {{ $cluster.install_config.baseDomain }}
   clusterName: {{ $cluster.name }}
   installAttemptsLimit: 1
-  installed: false
   platform:
 {{- if $cluster.install_config.platform.aws }}
     aws:
