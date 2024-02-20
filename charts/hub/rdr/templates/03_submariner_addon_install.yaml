@@ -1,37 +1,43 @@
 {{- range .Values.regionalDR }}
+{{ $globalnetEnabled := .globalnetEnabled }}
+{{- range .clusters }}
+{{ $cluster := . }}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ .name }}-broker
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: {{ $cluster.name }}-broker
 
 ---
 apiVersion: submariner.io/v1alpha1
 kind: Broker
 metadata:
   name: submariner-broker
-  namespace: {{ .name }}-broker
+  namespace: {{ $cluster.name }}-broker
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
-  globalnetEnabled: {{ .globalnetEnabled | default false }}
+  globalnetEnabled: {{ $globalnetEnabled | default false }}
 
 ---
 apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
 metadata:
   name: submariner
-  namespace: {{ .primary }}
+  namespace: {{ $cluster.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
   installNamespace: submariner-operator
+
 ---
 apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
 kind: SubmarinerConfig
 metadata:
   name: submariner
-  namespace: {{ .primary }}
+  namespace: {{ $cluster.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -43,37 +49,6 @@ spec:
   NATTEnable: true
   cableDriver: libreswan
   credentialsSecret:
-    name: aws-secret
+    name: {{ $cluster.name }}-cluster-aws-creds
 
-{{- range .secondaries }}
----
-apiVersion: addon.open-cluster-management.io/v1alpha1
-kind: ManagedClusterAddOn
-metadata:
-  name: submariner
-  namespace: {{ . }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-spec:
-  installNamespace: submariner-operator
----
-apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
-kind: SubmarinerConfig
-metadata:
-  name: submariner
-  namespace: {{ . }}
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-spec:
-  gatewayConfig:
-    gateways: 1
-    aws:
-      instanceType: c5d.large
-  IPSecNATTPort: 4500
-  NATTEnable: true
-  cableDriver: libreswan
-  credentialsSecret:
-    name: aws-secret
-
-{{- end }}
 {{- end }}

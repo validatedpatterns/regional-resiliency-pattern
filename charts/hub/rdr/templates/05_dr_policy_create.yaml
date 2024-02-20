@@ -1,43 +1,15 @@
 {{- range .Values.regionalDR }}
+{{ $clusterSet := .name }}
+{{- range .intervals }}
 apiVersion: ramendr.openshift.io/v1alpha1
 kind: DRPolicy
 metadata:
-  name: {{ .name }}-drsync15m
+  name: {{ .name }}-drsync-{{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "5"
 spec:
   drClusters:
-    - {{ .primary }}
-{{- range .secondaries }}
-    - {{ . }}
-{{- end }}
-  schedulingInterval: 15m
----
-apiVersion: ramendr.openshift.io/v1alpha1
-kind: DRPolicy
-metadata:
-  name: {{ .name }}-drsync5m
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
-spec:
-  drClusters:
-    - {{ .primary }}
-{{- range .secondaries }}
-    - {{ . }}
-{{- end }}
-  schedulingInterval: 5m
----
-apiVersion: ramendr.openshift.io/v1alpha1
-kind: DRPolicy
-metadata:
-  name: {{ .name }}-drsync2m
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
-spec:
-  drClusters:
-    - {{ .primary }}
-{{- range .secondaries }}
-    - {{ . }}
-{{- end }}
-  schedulingInterval: 2m
+    - {{ .clusters[0].name }}
+    - {{ .clusters[1].name }}
+  schedulingInterval: {{ . }}
 {{- end }}

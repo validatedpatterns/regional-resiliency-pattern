@@ -162,7 +162,7 @@ clusterGroup:
 
 # This section is used by ACM
   managedClusterGroups:
-  - name: resilient
+  - name: regional-setup-A
     helmOverrides:
     - name: clusterGroup.isHubCluster
       value: "false"
@@ -174,10 +174,12 @@ clusterGroup:
         operator: In
         values:
           - OpenShift
+    acmLabels:
+      - regionalName: regional-setup-A
     clusterPools:
       # example of pool for primary spokes
       aws-eu-central-1:
-        name: aws-region-ca
+        name: regional-setup-A-ca
         openshiftVersion: 4.12.49
         baseDomain: fsi-partner.rhecoeng.com
         platform:
@@ -200,7 +202,7 @@ clusterGroup:
                 - eu-central-1a
       # example of pool for secondary spokes
       aws-eu-central-2:
-        name: aws-eu-central
+        name: regional-setup-A-eu
         openshiftVersion: 4.12.49
         baseDomain: fsi-partner.rhecoeng.com
         platform:
