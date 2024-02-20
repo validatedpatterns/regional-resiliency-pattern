@@ -159,7 +159,19 @@ clusterGroup:
       # per playbook timeout in seconds
       # timeout: 234
       # verbosity: "-v"
-
+  managedClusterGroups:
+  - name: resilient
+    helmOverrides:
+    - name: clusterGroup.isHubCluster
+      value: "false"
+    clusterSelector:
+      matchLabels:
+        clusterGroup: resilient
+      matchExpressions:
+      - key: vendor
+        operator: In
+        values:
+          - OpenShift
 # This section is used by ACM
 #
 #   Additional applications
