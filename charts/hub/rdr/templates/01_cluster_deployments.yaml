@@ -13,7 +13,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: {{ $cluster.name }}-cluster-private-key
-  namespace: {{ $cluster.name | qoute }}
+  namespace: {{ $cluster.name }}
 spec:
   dataFrom:
     - extract:
@@ -39,7 +39,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: {{ $cluster.name }}-cluster-pull-secret
-  namespace: {{ $cluster.name | qoute }}
+  namespace: {{ $cluster.name }}
 spec:
   dataFrom:
     - extract:
@@ -65,7 +65,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: {{ $cluster.name }}-cluster-aws-creds
-  namespace: {{ $cluster.name | qoute }}
+  namespace: {{ $cluster.name }}
 spec:
   dataFrom:
     - extract:
@@ -91,32 +91,32 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: {{ $cluster.name }}-cluster-install-config
-  namespace: {{ $cluster.name | qoute }}
+  namespace: {{ $cluster.name }}
 type: Opaque
 data:
-  install-config.yaml: {{ $cluster.install-config | b64enc }}
+  install-config.yaml: {{ toYaml $cluster.install_config | b64enc }}
 
 ---
 apiVersion: hive.openshift.io/v1
 kind: ClusterDeployment
 metadata:
-  name: {{ $cluster.name | qoute }}
-  namespace: {{ $cluster.name | qoute }}
+  name: {{ $cluster.name }}
+  namespace: {{ $cluster.name }}
   labels:
     purpose: regionalDR
     vendor: OpenShift
     cluster.open-cluster-management.io/clusterset: {{ $clusterSet }}
 spec:
-  baseDomain: {{ $cluster.install-config.baseDomain }}
-  clusterName: {{ $cluster.name | qoute }}
+  baseDomain: {{ $cluster.install_config.baseDomain }}
+  clusterName: {{ $cluster.name }}
   installAttemptsLimit: 1
   installed: false
   platform:
-{{- if $cluster.install-config.platform.aws }}
+{{- if $cluster.install_config.platform.aws }}
     aws:
       credentialsSecretRef:
         name: {{ $cluster.name }}-cluster-aws-creds
-      region: {{ $cluster.install-config.platform.aws.region }}
+      region: {{ $cluster.install_config.platform.aws.region }}
 {{- end }}
   provisioning:
     installConfigSecretRef:
@@ -133,11 +133,11 @@ apiVersion: cluster.open-cluster-management.io/v1
 kind: ManagedCluster
 metadata:
   labels:
-    name: {{ $cluster.name | qoute }}
+    name: {{ $cluster.name }}
     vendor: OpenShift
     cluster.open-cluster-management.io/clusterset: {{ $clusterSet }}
     purpose: regionalDR
-  name: {{ $cluster.name | qoute }}
+  name: {{ $cluster.name }}
 spec:
   hubAcceptsClient: true
 
@@ -145,11 +145,11 @@ spec:
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
-  name: {{ $cluster.name | qoute }}
-  namespace: {{ $cluster.name | qoute }}
+  name: {{ $cluster.name }}
+  namespace: {{ $cluster.name }}
 spec:
-  clusterName: {{ $cluster.name | qoute }}
-  clusterNamespace: {{ $cluster.name | qoute }}
+  clusterName: {{ $cluster.name }}
+  clusterNamespace: {{ $cluster.name }}
   clusterLabels:
     vendor: OpenShift
   applicationManager:

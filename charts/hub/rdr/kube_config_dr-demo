@@ -1,0 +1,19 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://api.dr-hub.fsi-partner.rhecoeng.com:6443
+  name: api-dr-hub-fsi-partner-rhecoeng-com:6443
+contexts:
+- context:
+    cluster: api-dr-hub-fsi-partner-rhecoeng-com:6443
+    namespace: default
+    user: kube:admin/api-dr-hub-fsi-partner-rhecoeng-com:6443
+  name: default/api-dr-hub-fsi-partner-rhecoeng-com:6443/kube:admin
+current-context: default/api-dr-hub-fsi-partner-rhecoeng-com:6443/kube:admin
+kind: Config
+preferences: {}
+users:
+- name: kube:admin/api-dr-hub-fsi-partner-rhecoeng-com:6443
+  user:
+    token: sha256~ug3H-oNPKRTxA1jNGN5u64WuRlCXngv_K4wYtkhjDyc

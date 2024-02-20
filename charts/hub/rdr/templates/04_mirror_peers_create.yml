@@ -4,16 +4,20 @@
 apiVersion: multicluster.odf.openshift.io/v1alpha1
 kind: MirrorPeer
 metadata:
-  name: mirrorpeer-{{ $clusterSet }}-{{ with (index .clusters.name 0) }}-{{ with (index .clusters.name 1) }}
+  name: mirrorpeer-{{ $clusterSet }}
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
   items:
-  - clusterName: {{ with (index .clusters.name 0) }}
+  {{- with (index .clusters 0) }}
+  - clusterName: {{ .name }}
+  {{- end }}
     storageClusterRef:
       name: ocs-storagecluster
       namespace: openshift-storage
-  - clusterName: {{ with (index .clusters.name 1) }}
+  {{- with (index .clusters 1) }}
+  - clusterName: {{ .name }}
+  {{- end }}
     storageClusterRef:
       name: ocs-storagecluster
       namespace: openshift-storage
