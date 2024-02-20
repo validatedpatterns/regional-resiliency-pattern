@@ -2,9 +2,9 @@
 regionalDR:
   - name: resilient # Matches with ClusterSet
     globalnetEnabled: false
-    version: 4.14.12
     clusters:
       - name: ocp-primary
+        version: 4.14.12
         install_config:
           apiVersion: v1
           baseDomain: fsi-partner.rhecoeng.com
@@ -43,6 +43,7 @@ regionalDR:
           sshKey: ""
           pullSecret: ""
       - name: ocp-secondary
+        version: 4.14.12
         install_config:
           apiVersion: v1
           baseDomain: fsi-partner.rhecoeng.com
