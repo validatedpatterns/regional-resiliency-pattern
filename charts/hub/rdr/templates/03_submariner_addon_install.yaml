@@ -52,3 +52,4 @@ spec:
     name: {{ $cluster.name }}-cluster-aws-creds
 
 {{- end }}
+{{- end }}
