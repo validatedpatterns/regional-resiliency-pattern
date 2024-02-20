@@ -6,6 +6,8 @@ regionalDR:
         version: 4.14.12
         install_config:
           apiVersion: v1
+          metadata:
+            name: ocp-primary
           baseDomain: fsi-partner.rhecoeng.com
           controlPlane:
             name: master
@@ -45,6 +47,8 @@ regionalDR:
         version: 4.14.12
         install_config:
           apiVersion: v1
+          metadata:
+            name: ocp-secondary
           baseDomain: fsi-partner.rhecoeng.com
           controlPlane:
             name: master
