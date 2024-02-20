@@ -1,26 +1,27 @@
 {{- range .Values.regionalDR }}
 {{ $globalnetEnabled := .globalnetEnabled }}
-{{- range .clusters }}
-{{ $cluster := . }}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "3"
-  name: {{ $cluster.name }}-broker
+  name: {{ .name }}-broker
 
 ---
 apiVersion: submariner.io/v1alpha1
 kind: Broker
 metadata:
   name: submariner-broker
-  namespace: {{ $cluster.name }}-broker
+  namespace: {{ .name }}-broker
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
   globalnetEnabled: {{ $globalnetEnabled | default false }}
 
+
+{{- range .clusters }}
+{{ $cluster := . }}
 ---
 apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddOn
