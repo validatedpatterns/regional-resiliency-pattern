@@ -28,7 +28,7 @@ spec:
   target:
     creationPolicy: Owner
     deletionPolicy: Retain
-    name: {{ $cluster.name }}-cluster-pull-secret
+    name: {{ $cluster.name }}-cluster-private-key
     template:
       engineVersion: v2
       mergePolicy: Replace
@@ -80,7 +80,7 @@ spec:
   target:
     creationPolicy: Owner
     deletionPolicy: Retain
-    name: aws-secret
+    name: {{ $cluster.name }}-cluster-aws-creds
     template:
       engineVersion: v2
       mergePolicy: Replace
