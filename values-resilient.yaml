@@ -4,6 +4,7 @@ clusterGroup:
 
   namespaces:
     - stackrox
+    - openshift-storage
 
   subscriptions:
     odf:
