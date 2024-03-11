@@ -3,11 +3,12 @@ clusterGroup:
   isHubCluster: false
 
   projects:
-  - opp
+    - opp
 
   namespaces:
     - stackrox
     - openshift-storage
+    - policies
 
   subscriptions:
     odf:
