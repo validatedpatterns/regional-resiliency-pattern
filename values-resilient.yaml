@@ -2,6 +2,9 @@ clusterGroup:
   name: resilient
   isHubCluster: false
 
+  projects:
+  - opp
+
   namespaces:
     - stackrox
     - openshift-storage
