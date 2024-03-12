@@ -2,6 +2,11 @@ clusterGroup:
   name: resilient
   isHubCluster: false
 
+  # Added to include the "overrides" on resilient clusters
+  sharedValueFiles:
+    - '/overrides/values-{{ $.Values.global.clusterPlatform }}.yaml'
+    - '/overrides/values-{{ $.Values.global.clusterPlatform }}-{{ $.Values.global.clusterVersion }}.yaml' #   E: line too long (115 > 80 characters)
+
   projects:
     - opp
 
