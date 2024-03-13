@@ -25,21 +25,21 @@ spec:
   multiCloudGateway:
     dbStorageClassName: {{ .Values.cloudProvider.storageClass }}
     reconcileStrategy: standalone
-	storageDeviceSets:
-		- config: {}
-			count: 1
-			dataPVCTemplate:
-				metadata: {}
-				spec:
-					accessModes:
-					- ReadWriteOnce
-					resources:
-						requests:
-							storage: 512Gi
-					storageClassName: gp3-csi
-					volumeMode: Block
-			name: ocs-deviceset-gp3-csi
-			placement: {}
-			portable: true
-			preparePlacement: {}
-			replica: 3
+  storageDeviceSets:
+    - config: {}
+      count: 1
+      dataPVCTemplate:
+        metadata: {}
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 512Gi
+          storageClassName: gp3-csi
+          volumeMode: Block
+      name: ocs-deviceset-gp3-csi
+      placement: {}
+      portable: true
+      preparePlacement: {}
+      replica: 3
