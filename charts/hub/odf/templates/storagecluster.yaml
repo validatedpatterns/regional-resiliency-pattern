@@ -43,6 +43,7 @@ spec:
       portable: true
       preparePlacement: {}
       replica: 3
+
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
@@ -51,6 +52,10 @@ metadata:
   namespace: openshift-storage
   labels:
     app: ocs-storagecluster
+  ownerReferences:
+  - apiVersion: ocs.openshift.io/v1
+    kind: StorageCluster
+    name: ocs-storagecluster
 spec:
   security:
     keyRotation:
