@@ -193,6 +193,9 @@ spec:
               storageClassName: gp3-csi
               volumeMode: Block
             status: {}
+  cephVersion:
+    image: >-
+      registry.redhat.io/rhceph/rhceph-6-rhel9@sha256:9fe3736781784da48ea5605370a0d497087162105a42e19d1fbada54757e3f44
   labels:
     monitoring:
       rook.io/managedBy: ocs-storagecluster
