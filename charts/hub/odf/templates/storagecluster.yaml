@@ -52,10 +52,6 @@ metadata:
   namespace: openshift-storage
   labels:
     app: ocs-storagecluster
-  ownerReferences:
-  - apiVersion: ocs.openshift.io/v1
-    kind: StorageCluster
-    name: ocs-storagecluster
 spec:
   security:
     keyRotation:
