@@ -1,6 +1,4 @@
 global:
-  xraylab:
-    namespace: "mlops"
   datacenter:
     storageClassName: gp3-csi
     region: eu-central-1
