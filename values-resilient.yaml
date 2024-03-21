@@ -25,4 +25,4 @@ clusterGroup:
       name: storage
       namespace: openshift-storage
       project: opp
-      path: charts/hub/odf-new
+      path: charts/resilient/odf
