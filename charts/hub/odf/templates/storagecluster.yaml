@@ -25,3 +25,178 @@ spec:
   multiCloudGateway:
     dbStorageClassName: {{ .Values.cloudProvider.storageClass }}
     reconcileStrategy: standalone
+  storageDeviceSets:
+    - config: {}
+      count: 1
+      dataPVCTemplate:
+        metadata: {}
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 512Gi
+          storageClassName: gp3-csi
+          volumeMode: Block
+      name: ocs-deviceset-gp3-csi
+      placement: {}
+      portable: true
+      preparePlacement: {}
+      replica: 3
+
+---
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: ocs-storagecluster-cephcluster
+  namespace: openshift-storage
+  labels:
+    app: ocs-storagecluster
+spec:
+  security:
+    keyRotation:
+      enabled: false
+    kms: {}
+  placement:
+    all:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: cluster.ocs.openshift.io/openshift-storage
+                  operator: Exists
+      tolerations:
+        - effect: NoSchedule
+          key: node.ocs.openshift.io/storage
+          operator: Equal
+          value: 'true'
+    arbiter:
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Exists
+    mon:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: cluster.ocs.openshift.io/openshift-storage
+                  operator: Exists
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - rook-ceph-mon
+            topologyKey: kubernetes.io/hostname
+  crashCollector: {}
+  monitoring:
+    enabled: true
+  logCollector:
+    enabled: true
+    maxLogSize: 500Mi
+    periodicity: daily
+  external: {}
+  healthCheck:
+    daemonHealth:
+      mon: {}
+      osd: {}
+      status: {}
+  mon:
+    count: 3
+  network:
+    connections:
+      encryption: {}
+      requireMsgr2: true
+    multiClusterService: {}
+  dataDirHostPath: /var/lib/rook
+  continueUpgradeAfterChecksEvenIfNotHealthy: true
+  priorityClassNames:
+    mgr: system-node-critical
+    mon: system-node-critical
+    osd: system-node-critical
+  dashboard: {}
+  cleanupPolicy:
+    sanitizeDisks: {}
+  disruptionManagement:
+    machineDisruptionBudgetNamespace: openshift-machine-api
+    managePodBudgets: true
+  mgr:
+    count: 1
+    modules:
+      - enabled: true
+        name: pg_autoscaler
+      - enabled: true
+        name: balancer
+  storage:
+    storageClassDeviceSets:
+      - count: 3
+        name: ocs-deviceset-gp3-csi
+        placement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: cluster.ocs.openshift.io/openshift-storage
+                      operator: Exists
+          tolerations:
+            - effect: NoSchedule
+              key: node.ocs.openshift.io/storage
+              operator: Equal
+              value: 'true'
+          topologySpreadConstraints:
+            - labelSelector:
+                matchExpressions:
+                  - key: ceph.rook.io/pvc
+                    operator: Exists
+              maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: ScheduleAnyway
+        preparePlacement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: cluster.ocs.openshift.io/openshift-storage
+                      operator: Exists
+          tolerations:
+            - effect: NoSchedule
+              key: node.ocs.openshift.io/storage
+              operator: Equal
+              value: 'true'
+          topologySpreadConstraints:
+            - labelSelector:
+                matchExpressions:
+                  - key: ceph.rook.io/pvc
+                    operator: Exists
+              maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: ScheduleAnyway
+        resources:
+          limits:
+            cpu: '2'
+            memory: 5Gi
+          requests:
+            cpu: '1'
+            memory: 5Gi
+        volumeClaimTemplates:
+          - metadata:
+              annotations:
+                crushDeviceClass: ''
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: '1'
+              storageClassName: gp3-csi
+              volumeMode: Block
+            status: {}
+  cephVersion:
+    image: >-
+      registry.redhat.io/rhceph/rhceph-6-rhel9@sha256:9fe3736781784da48ea5605370a0d497087162105a42e19d1fbada54757e3f44
+  labels:
+    monitoring:
+      rook.io/managedBy: ocs-storagecluster

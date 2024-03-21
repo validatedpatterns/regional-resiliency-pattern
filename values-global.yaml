@@ -1,9 +1,95 @@
 ---
 regionalDR:
-  - name: regional-setup
-    primary: customspoke1
-    secondaries:
-      - customspoke1bu
+  - name: resilient # Matches with ClusterSet
+    globalnetEnabled: false
+    clusters:
+      - name: ocp-primary
+        version: 4.14.12
+        install_config:
+          apiVersion: v1
+          metadata:
+            name: ocp-primary
+          baseDomain: fsi-partner.rhecoeng.com
+          controlPlane:
+            name: master
+            replicas: 3
+            platform:
+              aws:
+                type: m5.2xlarge
+                zones:
+                - eu-central-1a
+          compute:
+          - name: worker
+            replicas: 5
+            platform:
+              aws:
+                type: m5.2xlarge
+                zones:
+                - eu-central-1a
+          networking:
+            clusterNetwork:
+            - cidr: 10.128.0.0/14
+              hostPrefix: 23
+            machineNetwork:
+            - cidr: 10.0.0.0/16
+            networkType: OpenShiftSDN
+            serviceNetwork:
+            - 172.30.0.0/16
+          platform:
+            aws:
+              region: eu-central-1
+              userTags:
+                project: ValidatedPatterns
+
+          publish: External
+          sshKey: ""
+          pullSecret: ""
+      - name: ocp-secondary
+        version: 4.14.12
+        install_config:
+          apiVersion: v1
+          metadata:
+            name: ocp-secondary
+          baseDomain: fsi-partner.rhecoeng.com
+          controlPlane:
+            name: master
+            replicas: 3
+            platform:
+              aws:
+                type: m5.2xlarge
+                zones:
+                - eu-central-1a
+          compute:
+          - name: worker
+            replicas: 5
+            platform:
+              aws:
+                type: m5.2xlarge
+                zones:
+                - eu-central-1a
+          networking:
+            clusterNetwork:
+            - cidr: 10.132.0.0/14
+              hostPrefix: 23
+            machineNetwork:
+            - cidr: 10.1.0.0/16
+            networkType: OpenShiftSDN
+            serviceNetwork:
+            - 172.31.0.0/16
+          platform:
+            aws:
+              region: eu-central-1
+              userTags:
+                project: ValidatedPatterns
+
+          publish: External
+          sshKey: ""
+          pullSecret: ""
+
+
+    intervals:
+      - 1m
+      - 2m
 
 global:
   pattern: regional-resiliency-pattern

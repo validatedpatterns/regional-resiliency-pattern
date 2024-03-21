@@ -36,9 +36,9 @@ clusterGroup:
       name: rhacs-operator  #packageName
       namespace: openshift-operators # operator namespace
 
-    odf:
-      name: odf-operator
-      namespace: openshift-storage
+#    odf:
+#      name: odf-operator
+#      namespace: openshift-storage
 
     odf-multicluster-orchestrator:
       name: odf-multicluster-orchestrator
@@ -84,11 +84,11 @@ clusterGroup:
       project: opp
       path: charts/hub/acs/secured
 
-    storage:
-      name: storage
-      namespace: openshift-storage
-      project: opp
-      path: charts/hub/odf
+#    storage:
+#      name: storage
+#      namespace: openshift-storage
+#      project: opp
+#      path: charts/hub/odf
 
     quay-registry:
       name: quay-registry
@@ -143,8 +143,6 @@ clusterGroup:
       project: hub
       path: charts/hub/cli-tools
 
-
-
   imperative: {}
     # NOTE: We *must* use lists and not hashes. As hashes lose ordering once parsed by helm
     # The default schedule is every 10 minutes: imperative.schedule
@@ -160,7 +158,6 @@ clusterGroup:
       # timeout: 234
       # verbosity: "-v"
 
-# This section is used by ACM
   managedClusterGroups:
   - name: resilient
     helmOverrides:
@@ -174,80 +171,7 @@ clusterGroup:
         operator: In
         values:
           - OpenShift
-    clusterPools:
-      # example of pool for primary spokes
-      aws-ca-central-1:
-        name: aws-region-ca
-        openshiftVersion: 4.12.49
-        baseDomain: fsi-partner.rhecoeng.com
-        platform:
-          aws:
-            region: ca-central-1
-        clusters:
-          - customspoke1
-        controlPlane:
-          platform:
-            aws:
-              type: m5.2xlarge
-              zones:
-                - ca-central-1a
-        workers:
-          replicas: 3
-          platform:
-            aws:
-              type: m5.xlarge
-              zones:
-                - ca-central-1a
-      # example of pool for secondary spokes
-      aws-eu-central-1:
-        name: aws-region-eu
-        openshiftVersion: 4.12.49
-        baseDomain: fsi-partner.rhecoeng.com
-        platform:
-          aws:
-            region: ca-central-1
-        clusters:
-          - customspoke1bu
-        controlPlane:
-          platform:
-            aws:
-              type: m5.2xlarge
-              zones:
-                - ca-central-1a
-        workers:
-          replicas: 3
-          platform:
-            aws:
-              type: m5.xlarge
-              zones:
-                - ca-central-1a
-
-  - name: development
-    helmOverrides:
-    - name: clusterGroup.isHubCluster
-      value: "false"
-    clusterSelector:
-      matchLabels:
-        clusterGroup: devel
-      matchExpressions:
-      - key: vendor
-        operator: In
-        values:
-          - OpenShift
-
-  - name: production
-    helmOverrides:
-    - name: clusterGroup.isHubCluster
-      value: "false"
-    clusterSelector:
-      matchLabels:
-        clusterGroup: prod
-      matchExpressions:
-      - key: vendor
-        operator: In
-        values:
-          - OpenShift
-
+# This section is used by ACM
 #
 #   Additional applications
 #   Be sure to include additional resources your apps will require
@@ -260,4 +184,3 @@ clusterGroup:
 #    path: path/to/myapp
 #    repoURL: https://github.com/vendor/applications.git
 #    targetRevision: main
-

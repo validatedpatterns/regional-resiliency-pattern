@@ -1,29 +1,28 @@
 {{- range .Values.regionalDR }}
-{{ $rdrName := .name }}
-{{ $primary := .primary }}
-{{- range .secondaries }}
+{{ $clusterSet := .name }}
 ---
 apiVersion: multicluster.odf.openshift.io/v1alpha1
 kind: MirrorPeer
 metadata:
-  name: mirrorpeer-{{ $rdrName }}-{{ $primary }}-{{ .name }}
+  name: mirrorpeer-{{ $clusterSet }}
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
   items:
-  - clusterName: {{ $primary }}
+  {{- with (index .clusters 0) }}
+  - clusterName: {{ .name }}
+  {{- end }}
     storageClusterRef:
       name: ocs-storagecluster
       namespace: openshift-storage
-  - clusterName: {{ . }}
+  {{- with (index .clusters 1) }}
+  - clusterName: {{ .name }}
+  {{- end }}
     storageClusterRef:
       name: ocs-storagecluster
       namespace: openshift-storage
   manageS3: true
   schedulingIntervals:
-  - 2m
-  - 5m
-  - 15m
+    {{- toYaml .intervals | nindent 2 }}
   type: async
-{{- end }}
 {{- end }}

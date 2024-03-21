@@ -2,14 +2,27 @@ clusterGroup:
   name: resilient
   isHubCluster: false
 
-subscriptions:
-  odf:
-    name: odf-operator
-    namespace: openshift-storage
+  # Added to include the "overrides" on resilient clusters
+  sharedValueFiles:
+    - '/overrides/values-{{ $.Values.global.clusterPlatform }}.yaml'
+    - '/overrides/values-{{ $.Values.global.clusterPlatform }}-{{ $.Values.global.clusterVersion }}.yaml' #   E: line too long (115 > 80 characters)
 
-applications:
-  storage:
-    name: storage
-    namespace: openshift-storage
-    project: opp
-    path: charts/hub/odf
+  projects:
+    - opp
+
+  namespaces:
+    - stackrox
+    - openshift-storage
+    - policies
+
+  subscriptions:
+    odf:
+      name: odf-operator
+      namespace: openshift-storage
+
+  applications:
+    storage:
+      name: storage
+      namespace: openshift-storage
+      project: opp
+      path: charts/resilient/odf
