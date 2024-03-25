@@ -10,12 +10,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "5"
 spec:
   drClusters:
-  {{- with (index $clusters 0) }}
-  - {{ .name }}
-  {{- end }}
-  {{- with (index $clusters 1) }}
-  - {{ .name }}
-  {{- end }}
+  - {{ $clusters.primary.name }}
+  - {{ $clusters.secondary.name }}
   schedulingInterval: {{ . }}
 {{- end }}
 {{- end }}

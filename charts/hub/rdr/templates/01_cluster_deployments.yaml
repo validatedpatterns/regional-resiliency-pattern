@@ -1,6 +1,6 @@
 {{- range .Values.regionalDR }}
 {{ $clusterSet := .name }}
-{{- range .clusters }}
+{{- range list .clusters.primary .clusters.secondary }}
 {{ $cluster := . }}
 ---
 apiVersion: v1

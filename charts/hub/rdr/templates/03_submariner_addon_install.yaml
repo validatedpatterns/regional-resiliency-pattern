@@ -20,7 +20,7 @@ spec:
   globalnetEnabled: {{ $globalnetEnabled | default false }}
 
 
-{{- range .clusters }}
+{{- range list .clusters.primary .clusters.secondary }}
 {{ $cluster := . }}
 ---
 apiVersion: addon.open-cluster-management.io/v1alpha1
