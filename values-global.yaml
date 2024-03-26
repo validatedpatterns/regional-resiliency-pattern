@@ -127,8 +127,8 @@ regionalDR:
           publish: External
           sshKey: ""
           pullSecret: ""
-    # List of sync policy intervals, RPO should be bigger than the sync time.
-    # If you sync process takes 3 mins, the sync interval should be at least 4-5 mins.
+    # List of sync policy intervals: RPO should be larger than the sync time.
+    # If your sync process takes 3 mins, the interval should be at least 4-5 mins.
     intervals:
       - 1m
       - 2m
