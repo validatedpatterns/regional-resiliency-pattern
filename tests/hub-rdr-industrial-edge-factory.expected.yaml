@@ -1,0 +1,531 @@
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ocp-primary
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ocp-secondary
+---
+# Source: hub-apps/templates/03_submariner_addon_install.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: resilient-broker
+---
+# Source: hub-apps/templates/01_console_mco_enable_patch.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: patch-sa
+  namespace: openshift-storage
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ocp-primary-cluster-install-config
+  namespace: ocp-primary
+type: Opaque
+data:
+  install-config.yaml: YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogZXhhbXBsZS1kb21haW4uY29tCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBhd3M6CiAgICAgIHR5cGU6IG01LjJ4bGFyZ2UKICAgICAgem9uZXM6CiAgICAgIC0gZXUtY2VudHJhbC0xYQogIHJlcGxpY2FzOiA1CmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogICAgICB6b25lczoKICAgICAgLSBldS1jZW50cmFsLTFhCiAgcmVwbGljYXM6IDMKbWV0YWRhdGE6CiAgbmFtZTogb2NwLXByaW1hcnkKbmV0d29ya2luZzoKICBjbHVzdGVyTmV0d29yazoKICAtIGNpZHI6IDEwLjEyOC4wLjAvMTQKICAgIGhvc3RQcmVmaXg6IDIzCiAgbWFjaGluZU5ldHdvcms6CiAgLSBjaWRyOiAxMC4wLjAuMC8xNgogIG5ldHdvcmtUeXBlOiBPcGVuU2hpZnRTRE4KICBzZXJ2aWNlTmV0d29yazoKICAtIDE3Mi4zMC4wLjAvMTYKcGxhdGZvcm06CiAgYXdzOgogICAgcmVnaW9uOiBldS1jZW50cmFsLTEKICAgIHVzZXJUYWdzOgogICAgICBwcm9qZWN0OiBWYWxpZGF0ZWRQYXR0ZXJucwpwdWJsaXNoOiBFeHRlcm5hbApwdWxsU2VjcmV0OiAiIgpzc2hLZXk6ICIi
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ocp-secondary-cluster-install-config
+  namespace: ocp-secondary
+type: Opaque
+data:
+  install-config.yaml: YXBpVmVyc2lvbjogdjEKYmFzZURvbWFpbjogZnNpLXBhcnRuZXIucmhlY29lbmcuY29tCmNvbXB1dGU6Ci0gbmFtZTogd29ya2VyCiAgcGxhdGZvcm06CiAgICBhd3M6CiAgICAgIHR5cGU6IG01LjJ4bGFyZ2UKICAgICAgem9uZXM6CiAgICAgIC0gZXUtY2VudHJhbC0xYQogIHJlcGxpY2FzOiA1CmNvbnRyb2xQbGFuZToKICBuYW1lOiBtYXN0ZXIKICBwbGF0Zm9ybToKICAgIGF3czoKICAgICAgdHlwZTogbTUuMnhsYXJnZQogICAgICB6b25lczoKICAgICAgLSBldS1jZW50cmFsLTFhCiAgcmVwbGljYXM6IDMKbWV0YWRhdGE6CiAgbmFtZTogb2NwLXNlY29uZGFyeQpuZXR3b3JraW5nOgogIGNsdXN0ZXJOZXR3b3JrOgogIC0gY2lkcjogMTAuMTMyLjAuMC8xNAogICAgaG9zdFByZWZpeDogMjMKICBtYWNoaW5lTmV0d29yazoKICAtIGNpZHI6IDEwLjEuMC4wLzE2CiAgbmV0d29ya1R5cGU6IE9wZW5TaGlmdFNETgogIHNlcnZpY2VOZXR3b3JrOgogIC0gMTcyLjMxLjAuMC8xNgpwbGF0Zm9ybToKICBhd3M6CiAgICByZWdpb246IGV1LWNlbnRyYWwtMQogICAgdXNlclRhZ3M6CiAgICAgIHByb2plY3Q6IFZhbGlkYXRlZFBhdHRlcm5zCnB1Ymxpc2g6IEV4dGVybmFsCnB1bGxTZWNyZXQ6ICIiCnNzaEtleTogIiI=
+---
+# Source: hub-apps/templates/01_console_mco_enable_patch.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: patch-sa-role
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+rules:
+  - apiGroups:
+      - ""
+      - "ocs.openshift.io"
+      - "operator.openshift.io"
+    resources:
+      - consoles
+    verbs:
+      - get
+      - list
+      - patch
+      - update
+---
+# Source: hub-apps/templates/01_console_mco_enable_patch.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: patch-sa-rolebinding
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+subjects:
+  - kind: ServiceAccount
+    name: patch-sa
+    namespace: openshift-storage
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: patch-sa-role
+---
+# Source: hub-apps/templates/01_console_mco_enable_patch.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: enable-odf-plugin
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/hook: "PostSync"
+    #argocd.argoproj.io/hook-delete-policy: HookSucceeded
+  namespace: openshift-storage
+spec:
+  template:
+    spec:
+      containers:
+      - name: enable-odf-plugin
+        command:
+            - /bin/bash
+            - -c
+            - |
+              echo "Patching the console to enable MCO console plugin"
+              oc patch console.operator cluster -n openshift-storage --type json -p '[{"op": "add", "path": "/spec/plugins", "value": ["odf-multicluster-console"]}]'
+              if [ $? = 0 ]
+              then
+                  echo "MCO console enabled, patch was applied ok"
+              else
+                  echo "Failed to patch console"
+              fi
+        image: registry.redhat.io/openshift4/ose-cli:v4.7
+      restartPolicy: Never
+      serviceAccountName: patch-sa
+---
+# Source: hub-apps/templates/03_submariner_addon_install.yaml
+apiVersion: submariner.io/v1alpha1
+kind: Broker
+metadata:
+  name: submariner-broker
+  namespace: resilient-broker
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  globalnetEnabled: false
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: ocp-primary
+  namespace: ocp-primary
+  labels:
+    purpose: regionalDR
+    vendor: OpenShift
+    cluster.open-cluster-management.io/clusterset: resilient
+spec:
+  baseDomain: example-domain.com
+  clusterName: ocp-primary
+  installAttemptsLimit: 1
+  platform:
+    aws:
+      credentialsSecretRef:
+        name: ocp-primary-cluster-aws-creds
+      region: eu-central-1
+  provisioning:
+    installConfigSecretRef:
+      name: ocp-primary-cluster-install-config
+    sshPrivateKeySecretRef:
+      name: ocp-primary-cluster-private-key
+    imageSetRef:
+      name: img4.14.12-multi-appsub
+  pullSecretRef:
+    name: ocp-primary-cluster-pull-secret
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: ocp-secondary
+  namespace: ocp-secondary
+  labels:
+    purpose: regionalDR
+    vendor: OpenShift
+    cluster.open-cluster-management.io/clusterset: resilient
+spec:
+  baseDomain: fsi-partner.rhecoeng.com
+  clusterName: ocp-secondary
+  installAttemptsLimit: 1
+  platform:
+    aws:
+      credentialsSecretRef:
+        name: ocp-secondary-cluster-aws-creds
+      region: eu-central-1
+  provisioning:
+    installConfigSecretRef:
+      name: ocp-secondary-cluster-install-config
+    sshPrivateKeySecretRef:
+      name: ocp-secondary-cluster-private-key
+    imageSetRef:
+      name: img4.14.12-multi-appsub
+  pullSecretRef:
+    name: ocp-secondary-cluster-pull-secret
+---
+# Source: hub-apps/templates/05_dr_policy_create.yaml
+apiVersion: ramendr.openshift.io/v1alpha1
+kind: DRPolicy
+metadata:
+  name: resilient-drsync-1m
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  drClusters:
+  - ocp-primary
+  - ocp-secondary
+  schedulingInterval: 1m
+apiVersion: ramendr.openshift.io/v1alpha1
+kind: DRPolicy
+metadata:
+  name: resilient-drsync-2m
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  drClusters:
+  - ocp-primary
+  - ocp-secondary
+  schedulingInterval: 2m
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ocp-primary-cluster-private-key
+  namespace: ocp-primary
+spec:
+  dataFrom:
+    - extract:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: secret/hub/privatekey
+        metadataPolicy: None
+  refreshInterval: 24h0m0s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-backend
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: ocp-primary-cluster-private-key
+    template:
+      engineVersion: v2
+      mergePolicy: Replace
+      type: Opaque
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ocp-primary-cluster-pull-secret
+  namespace: ocp-primary
+spec:
+  dataFrom:
+    - extract:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: secret/hub/openshiftPullSecret
+        metadataPolicy: None
+  refreshInterval: 24h0m0s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-backend
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: ocp-primary-cluster-pull-secret
+    template:
+      engineVersion: v2
+      mergePolicy: Replace
+      type: Opaque
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ocp-primary-cluster-aws-creds
+  namespace: ocp-primary
+spec:
+  dataFrom:
+    - extract:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: secret/hub/aws
+        metadataPolicy: None
+  refreshInterval: 24h0m0s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-backend
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: ocp-primary-cluster-aws-creds
+    template:
+      engineVersion: v2
+      mergePolicy: Replace
+      type: Opaque
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ocp-secondary-cluster-private-key
+  namespace: ocp-secondary
+spec:
+  dataFrom:
+    - extract:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: secret/hub/privatekey
+        metadataPolicy: None
+  refreshInterval: 24h0m0s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-backend
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: ocp-secondary-cluster-private-key
+    template:
+      engineVersion: v2
+      mergePolicy: Replace
+      type: Opaque
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ocp-secondary-cluster-pull-secret
+  namespace: ocp-secondary
+spec:
+  dataFrom:
+    - extract:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: secret/hub/openshiftPullSecret
+        metadataPolicy: None
+  refreshInterval: 24h0m0s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-backend
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: ocp-secondary-cluster-pull-secret
+    template:
+      engineVersion: v2
+      mergePolicy: Replace
+      type: Opaque
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: ocp-secondary-cluster-aws-creds
+  namespace: ocp-secondary
+spec:
+  dataFrom:
+    - extract:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: secret/hub/aws
+        metadataPolicy: None
+  refreshInterval: 24h0m0s
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: vault-backend
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: ocp-secondary-cluster-aws-creds
+    template:
+      engineVersion: v2
+      mergePolicy: Replace
+      type: Opaque
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: ocp-primary
+  namespace: ocp-primary
+spec:
+  clusterName: ocp-primary
+  clusterNamespace: ocp-primary
+  clusterLabels:
+    vendor: OpenShift
+  applicationManager:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true
+  certPolicyController:
+    enabled: true
+  iamPolicyController:
+    enabled: true
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: ocp-secondary
+  namespace: ocp-secondary
+spec:
+  clusterName: ocp-secondary
+  clusterNamespace: ocp-secondary
+  clusterLabels:
+    vendor: OpenShift
+  applicationManager:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true
+  certPolicyController:
+    enabled: true
+  iamPolicyController:
+    enabled: true
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  labels:
+    name: ocp-primary
+    vendor: OpenShift
+    cluster.open-cluster-management.io/clusterset: resilient
+    clusterGroup: resilient
+    purpose: regionalDR
+  name: ocp-primary
+spec:
+  hubAcceptsClient: true
+---
+# Source: hub-apps/templates/01_cluster_deployments.yaml
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  labels:
+    name: ocp-secondary
+    vendor: OpenShift
+    cluster.open-cluster-management.io/clusterset: resilient
+    clusterGroup: resilient
+    purpose: regionalDR
+  name: ocp-secondary
+spec:
+  hubAcceptsClient: true
+---
+# Source: hub-apps/templates/03_submariner_addon_install.yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: submariner
+  namespace: ocp-primary
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  installNamespace: submariner-operator
+---
+# Source: hub-apps/templates/03_submariner_addon_install.yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: submariner
+  namespace: ocp-secondary
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  installNamespace: submariner-operator
+---
+# Source: hub-apps/templates/00_clustersets_create.yaml
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSet
+metadata:
+  name: resilient
+  annotations:
+    cluster.open-cluster-management.io/submariner-broker-ns: resilient-broker
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    regional-dr-group: resilient
+---
+# Source: hub-apps/templates/04_mirror_peers_create.yml
+apiVersion: multicluster.odf.openshift.io/v1alpha1
+kind: MirrorPeer
+metadata:
+  name: mirrorpeer-resilient
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  items:
+  - clusterName: ocp-primary
+    storageClusterRef:
+      name: ocs-storagecluster
+      namespace: openshift-storage
+  - clusterName: ocp-secondary
+    storageClusterRef:
+      name: ocs-storagecluster
+      namespace: openshift-storage
+  manageS3: true
+  schedulingIntervals:
+  - 1m
+  - 2m
+  type: async
+---
+# Source: hub-apps/templates/03_submariner_addon_install.yaml
+apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
+kind: SubmarinerConfig
+metadata:
+  name: submariner
+  namespace: ocp-primary
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  gatewayConfig:
+    gateways: 1
+    aws:
+      instanceType: c5d.large
+  IPSecNATTPort: 4500
+  NATTEnable: true
+  cableDriver: libreswan
+  credentialsSecret:
+    name: ocp-primary-cluster-aws-creds
+---
+# Source: hub-apps/templates/03_submariner_addon_install.yaml
+apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
+kind: SubmarinerConfig
+metadata:
+  name: submariner
+  namespace: ocp-secondary
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  gatewayConfig:
+    gateways: 1
+    aws:
+      instanceType: c5d.large
+  IPSecNATTPort: 4500
+  NATTEnable: true
+  cableDriver: libreswan
+  credentialsSecret:
+    name: ocp-secondary-cluster-aws-creds

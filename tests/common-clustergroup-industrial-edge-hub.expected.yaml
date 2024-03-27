@@ -368,6 +368,95 @@ data:
       git:
         repoURL: https://github.com/pattern-clone/mypattern
         revision: main
+    regionalDR:
+    - clusters:
+        primary:
+          install_config:
+            apiVersion: v1
+            baseDomain: example-domain.com
+            compute:
+            - name: worker
+              platform:
+                aws:
+                  type: m5.2xlarge
+                  zones:
+                  - eu-central-1a
+              replicas: 5
+            controlPlane:
+              name: master
+              platform:
+                aws:
+                  type: m5.2xlarge
+                  zones:
+                  - eu-central-1a
+              replicas: 3
+            metadata:
+              name: ocp-primary
+            networking:
+              clusterNetwork:
+              - cidr: 10.128.0.0/14
+                hostPrefix: 23
+              machineNetwork:
+              - cidr: 10.0.0.0/16
+              networkType: OpenShiftSDN
+              serviceNetwork:
+              - 172.30.0.0/16
+            platform:
+              aws:
+                region: eu-central-1
+                userTags:
+                  project: ValidatedPatterns
+            publish: External
+            pullSecret: ""
+            sshKey: ""
+          name: ocp-primary
+          version: 4.14.12
+        secondary:
+          install_config:
+            apiVersion: v1
+            baseDomain: fsi-partner.rhecoeng.com
+            compute:
+            - name: worker
+              platform:
+                aws:
+                  type: m5.2xlarge
+                  zones:
+                  - eu-central-1a
+              replicas: 5
+            controlPlane:
+              name: master
+              platform:
+                aws:
+                  type: m5.2xlarge
+                  zones:
+                  - eu-central-1a
+              replicas: 3
+            metadata:
+              name: ocp-secondary
+            networking:
+              clusterNetwork:
+              - cidr: 10.132.0.0/14
+                hostPrefix: 23
+              machineNetwork:
+              - cidr: 10.1.0.0/16
+              networkType: OpenShiftSDN
+              serviceNetwork:
+              - 172.31.0.0/16
+            platform:
+              aws:
+                region: eu-central-1
+                userTags:
+                  project: ValidatedPatterns
+            publish: External
+            pullSecret: ""
+            sshKey: ""
+          name: ocp-secondary
+          version: 4.14.12
+      globalnetEnabled: false
+      intervals:
+      - 1m
+      - 2m
+      name: resilient
     secretStore:
       kind: ClusterSecretStore
       name: vault-backend
