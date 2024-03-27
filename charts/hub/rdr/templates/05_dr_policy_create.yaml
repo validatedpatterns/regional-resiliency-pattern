@@ -1,0 +1,17 @@
+{{- range .Values.regionalDR }}
+{{ $clusterSet := .name }}
+{{ $clusters := .clusters }}
+{{- range .intervals }}
+apiVersion: ramendr.openshift.io/v1alpha1
+kind: DRPolicy
+metadata:
+  name: {{ $clusterSet }}-drsync-{{ . }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  drClusters:
+  - {{ $clusters.primary.name }}
+  - {{ $clusters.secondary.name }}
+  schedulingInterval: {{ . }}
+{{- end }}
+{{- end }}

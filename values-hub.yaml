@@ -15,7 +15,9 @@ clusterGroup:
   - devsecops-ci
   - openshift-storage
   - quay-enterprise
+  - regional-dr
   - regional-dr-trigger
+  - openshift-dr-system
 
 #  subscriptions:  OpenShift Operator subscriptions from OLM/OperatorHub
 #  - name: the Operator package name (required)
@@ -34,9 +36,13 @@ clusterGroup:
       name: rhacs-operator  #packageName
       namespace: openshift-operators # operator namespace
 
-    odf:
-      name: odf-operator
-      namespace: openshift-storage
+#    odf:
+#      name: odf-operator
+#      namespace: openshift-storage
+
+    odf-multicluster-orchestrator:
+      name: odf-multicluster-orchestrator
+      namespace: openshift-operators
 
     quay:
       name: quay-operator
@@ -78,11 +84,11 @@ clusterGroup:
       project: opp
       path: charts/hub/acs/secured
 
-    storage:
-      name: storage
-      namespace: openshift-storage
-      project: opp
-      path: charts/hub/odf
+#    storage:
+#      name: storage
+#      namespace: openshift-storage
+#      project: opp
+#      path: charts/hub/odf
 
     quay-registry:
       name: quay-registry
@@ -100,6 +106,12 @@ clusterGroup:
         kind: Console
         jsonPointers:
           - /spec/plugins
+
+    rdr:
+      name: regional-dr
+      namespace: regional-dr
+      project: opp
+      path: charts/hub/rdr
 
     rdrtrigger:
       name: regional-dr-trigger
@@ -146,34 +158,20 @@ clusterGroup:
       # timeout: 234
       # verbosity: "-v"
 
-# This section is used by ACM
   managedClusterGroups:
-  - name: development
+  - name: resilient
     helmOverrides:
     - name: clusterGroup.isHubCluster
       value: "false"
     clusterSelector:
       matchLabels:
-        clusterGroup: devel
+        clusterGroup: resilient
       matchExpressions:
       - key: vendor
         operator: In
         values:
           - OpenShift
-
-  - name: production
-    helmOverrides:
-    - name: clusterGroup.isHubCluster
-      value: "false"
-    clusterSelector:
-      matchLabels:
-        clusterGroup: prod
-      matchExpressions:
-      - key: vendor
-        operator: In
-        values:
-          - OpenShift
-
+# This section is used by ACM
 #
 #   Additional applications
 #   Be sure to include additional resources your apps will require
@@ -186,4 +184,3 @@ clusterGroup:
 #    path: path/to/myapp
 #    repoURL: https://github.com/vendor/applications.git
 #    targetRevision: main
-

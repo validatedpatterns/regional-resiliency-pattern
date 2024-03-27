@@ -1,0 +1,56 @@
+{{- range .Values.regionalDR }}
+{{ $globalnetEnabled := .globalnetEnabled }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: {{ .name }}-broker
+
+---
+apiVersion: submariner.io/v1alpha1
+kind: Broker
+metadata:
+  name: submariner-broker
+  namespace: {{ .name }}-broker
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  globalnetEnabled: {{ $globalnetEnabled | default false }}
+
+
+{{- range list .clusters.primary .clusters.secondary }}
+{{ $cluster := . }}
+---
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: submariner
+  namespace: {{ $cluster.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  installNamespace: submariner-operator
+
+---
+apiVersion: submarineraddon.open-cluster-management.io/v1alpha1
+kind: SubmarinerConfig
+metadata:
+  name: submariner
+  namespace: {{ $cluster.name }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  gatewayConfig:
+    gateways: 1
+    aws:
+      instanceType: c5d.large
+  IPSecNATTPort: 4500
+  NATTEnable: true
+  cableDriver: libreswan
+  credentialsSecret:
+    name: {{ $cluster.name }}-cluster-aws-creds
+
+{{- end }}
+{{- end }}

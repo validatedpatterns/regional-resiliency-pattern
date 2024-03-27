@@ -1,0 +1,12 @@
+{{- range .Values.regionalDR }}
+---
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSet
+metadata:
+  name: {{ .name }}
+  annotations:
+    cluster.open-cluster-management.io/submariner-broker-ns: {{ .name }}-broker
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    regional-dr-group: {{ .name }}
+{{- end }}
