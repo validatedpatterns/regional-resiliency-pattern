@@ -122,7 +122,7 @@ by [ACM][acm]'s heartbeat mechanism, a failover will be triggered to all related
 
 ## Further Reading
 
-- [Deploy an example DR Application][example-app]
+- [Deploy an example DR Application](./rdr-example-app/README.md)
 - [Maintain the Regional Resiliency Pattern][maintenance]
 - [Troubleshooting the Regional Resiliency Pattern][troubleshooting]
 - [Uninstalling the Regional Resiliency Pattern][uninstalling]
