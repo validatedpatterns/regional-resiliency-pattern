@@ -92,7 +92,7 @@ regionalDR:
           apiVersion: v1
           metadata:
             name: ocp-secondary
-          baseDomain: fsi-partner.rhecoeng.com
+          baseDomain: your.basedomain.com
           controlPlane:
             name: master
             replicas: 3

@@ -414,7 +414,7 @@ data:
         secondary:
           install_config:
             apiVersion: v1
-            baseDomain: fsi-partner.rhecoeng.com
+            baseDomain: your.basedomain.com
             compute:
             - name: worker
               platform:
