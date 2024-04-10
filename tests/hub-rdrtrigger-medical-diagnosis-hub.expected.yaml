@@ -1,0 +1,323 @@
+---
+# Source: regional-dr-trigger-operator/templates/Namespace-regional-dr-trigger.yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger
+---
+# Source: regional-dr-trigger-operator/templates/ServiceAccount-regional-dr-trigger-sa.yml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger-sa
+  namespace: regional-dr-trigger
+---
+# Source: regional-dr-trigger-operator/templates/ClusterRole-regional-dr-trigger-monitoring-role.yml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger-monitoring-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - nonResourceURLs:
+      - /metrics
+    verbs:
+      - get
+---
+# Source: regional-dr-trigger-operator/templates/ClusterRole-regional-dr-trigger-role.yml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+  - apiGroups:
+      - authentication.k8s.io
+    resources:
+      - tokenreviews
+    verbs:
+      - create
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+      - get
+  - apiGroups:
+      - cluster.open-cluster-management.io
+    resources:
+      - managedclusters
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - create
+      - get
+      - update
+  - apiGroups:
+      - ramendr.openshift.io
+    resources:
+      - drplacementcontrols
+    verbs:
+      - get
+      - list
+      - patch
+      - watch
+---
+# Source: regional-dr-trigger-operator/templates/ClusterRoleBinding-regional-dr-trigger-monitoring-rb.yml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger-monitoring-rb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: regional-dr-trigger-monitoring-role
+subjects:
+  - kind: ServiceAccount
+    name: prometheus-k8s
+    namespace: openshift-monitoring
+---
+# Source: regional-dr-trigger-operator/templates/ClusterRoleBinding-regional-dr-trigger-rb.yml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger-rb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: regional-dr-trigger-role
+subjects:
+  - kind: ServiceAccount
+    name: regional-dr-trigger-sa
+    namespace: regional-dr-trigger
+---
+# Source: regional-dr-trigger-operator/templates/Service-regional-dr-trigger-metrics-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger-metrics-service
+  namespace: regional-dr-trigger
+spec:
+  ports:
+    - name: metrics
+      port: 8383
+      protocol: TCP
+  selector:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+---
+# Source: regional-dr-trigger-operator/templates/Deployment-regional-dr-trigger-operator.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger-operator
+  namespace: regional-dr-trigger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: operator
+      app.kubernetes.io/part-of: regional-dr-trigger-operator
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: rdrtrigger
+      labels:
+        app.kubernetes.io/component: operator
+        app.kubernetes.io/instance: rdrtrigger-0.1.0
+        app.kubernetes.io/managed-by: kustomize
+        app.kubernetes.io/name: regional-dr-trigger-operator
+        app.kubernetes.io/part-of: regional-dr-trigger-operator
+        app.kubernetes.io/version: 0.1.0
+    spec:
+      containers:
+        - args:
+            - --secure-listen-address=0.0.0.0:8383
+            - --upstream=http://127.0.0.1:8080/
+            - --logtostderr=true
+            - --v=0
+          image: gcr.io/kubebuilder/kube-rbac-proxy:v0.14.1
+          imagePullPolicy: IfNotPresent
+          name: kube-rbac-proxy
+          ports:
+            - containerPort: 8383
+              name: https
+              protocol: TCP
+          resources: 
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 5m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+        - args:
+            - rdrtrigger
+            - --leader-election
+            - --probe-address=:8081
+            - --metric-address=127.0.0.1:8080
+          image: quay.io/ecosystem-appeng/regional-dr-trigger-operator:0.1.0
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          name: rdrtrigger
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources: 
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: regional-dr-trigger-sa
+---
+# Source: regional-dr-trigger-operator/templates/ServiceMonitor-regional-dr-trigger-sm.yml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/instance: hub-rdrtrigger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: regional-dr-trigger-operator
+    app.kubernetes.io/part-of: regional-dr-trigger-operator
+    app.kubernetes.io/version: 0.1.0
+    helm.sh/chart: regional-dr-trigger-operator-1.0.0
+  name: regional-dr-trigger-sm
+  namespace: regional-dr-trigger
+namespace: openshift-monitoring
+spec:
+  endpoints:
+    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      path: /metrics
+      port: metrics
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true
+  namespaceSelector:
+    matchNames:
+      - regional-dr-trigger
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: regional-dr-trigger-operator
