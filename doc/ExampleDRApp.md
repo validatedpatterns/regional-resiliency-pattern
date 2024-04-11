@@ -108,6 +108,7 @@ oc patch drpc pacman-placement-1-drpc -n pacman --type merge -p '{"spec": {"acti
 ```
 
 ### Failover Process
+
 Once the failover process has started, we will see its progress checking the
 `DRPC` CR.
 
