@@ -124,6 +124,7 @@ oc get route pacman -n pacman -o jsonpath='{.spec.host}'
 On the main menu, click on "High Score", and you will see how the scores of the
 Pacman game still having the same records when it was running on the Primary
 cluster.
+
 ![PACMAN-AFTER-DR][PACMAN-AFTER-DR]
 ![PACMAN-RESULTS][PACMAN-RESULTS]
 
