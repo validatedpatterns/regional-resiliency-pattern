@@ -2,6 +2,7 @@
 {{ $clusterSet := .name }}
 {{ $clusters := .clusters }}
 {{- range .intervals }}
+---
 apiVersion: ramendr.openshift.io/v1alpha1
 kind: DRPolicy
 metadata:
