@@ -130,15 +130,15 @@ by [ACM][acm]'s heartbeat mechanism, a failover will be triggered to all related
 <!--LINKS-->
 [acm]: https://www.redhat.com/en/technologies/management/advanced-cluster-management
 [devsecops]: https://validatedpatterns.io/patterns/devsecops/
-[example-app]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/docs/ExampleDRApp.md
+[example-app]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/doc/ExampleDRApp.md
 [install_config]: https://docs.openshift.com/container-platform/4.14/installing/installing_aws/installing-aws-customizations.html
 [gitops]: https://www.redhat.com/en/technologies/cloud-computing/openshift/gitops
-[maintenance]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/docs/Maintenance.md
+[maintenance]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/doc/Maintenance.md
 [oc]: https://docs.openshift.com/container-platform/4.14/cli_reference/openshift_cli/getting-started-cli.html
 [odf]: https://access.redhat.com/documentation/en-us/red_hat_openshift_data_foundation/4.14
 [openshift]: https://www.redhat.com/en/technologies/cloud-computing/openshift
 [rdrtrigger]: https://github.com/RHEcosystemAppEng/regional-dr-trigger-operator-chart
 [regional]: https://access.redhat.com/documentation/en-us/red_hat_openshift_data_foundation/4.14/html/configuring_openshift_data_foundation_disaster_recovery_for_openshift_workloads/rdr-solution
-[troubleshooting]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/docs/Troubleshooting.md
-[uninstalling]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/docs/Uninstalling.md
+[troubleshooting]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/doc/Troubleshooting.md
+[uninstalling]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/doc/Uninstalling.md
 [vp]: https://validatedpatterns.io/
