@@ -19,7 +19,7 @@ regionalDR:
               aws:
                 type: m5.2xlarge
                 zones:
-                  - eu-central-1a
+                  - ca-central-1a
           compute:
             - name: worker
               replicas: 5
@@ -27,7 +27,7 @@ regionalDR:
                 aws:
                   type: m5.2xlarge
                   zones:
-                    - eu-central-1a
+                    - ca-central-1a
           networking:
             clusterNetwork:
               - cidr: 10.128.0.0/14
@@ -39,7 +39,7 @@ regionalDR:
               - 172.30.0.0/16
           platform:
             aws:
-              region: eu-central-1
+              region: ca-central-1
               userTags:
                 project: ValidatedPatterns
 
@@ -53,7 +53,7 @@ regionalDR:
           apiVersion: v1
           metadata:
             name: ocp-secondary
-          baseDomain: your.basedomain.com
+          baseDomain: example-domain.com
           controlPlane:
             name: master
             replicas: 3
