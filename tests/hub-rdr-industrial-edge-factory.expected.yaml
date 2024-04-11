@@ -196,6 +196,8 @@ spec:
   - ocp-primary
   - ocp-secondary
   schedulingInterval: 1m
+---
+# Source: hub-apps/templates/05_dr_policy_create.yaml
 apiVersion: ramendr.openshift.io/v1alpha1
 kind: DRPolicy
 metadata:
