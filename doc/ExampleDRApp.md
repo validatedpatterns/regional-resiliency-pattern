@@ -107,6 +107,10 @@ For testing the DR manually, just patch the DRPC object with the following comma
 oc patch drpc pacman-placement-1-drpc -n pacman --type merge -p '{"spec": {"action": "Failover"}}'
 ```
 
+### Failover Process
+Once the failover process has started, we will see its progress checking the
+`DRPC` CR.
+
 ![DRPC-FAILINGOVER][DRPC-FAILINGOVER]
 
 Wait until the application is failed over correctly
