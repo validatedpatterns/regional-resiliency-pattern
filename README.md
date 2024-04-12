@@ -82,7 +82,7 @@ active-passive scenarios.
    ```
 
 8. Verify the Framework's _GitOps_ server:<br/>
-   <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/doc/hub-framework-gitops.png" width="670" height="448" alt="">
+   <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/docs/hub-framework-gitops.png" width="670" height="448" alt="">
 
 9. Observe the Pattern's _GitOps_ server and wait for all resources to be reconciled.
 
@@ -90,13 +90,13 @@ active-passive scenarios.
    > some time.
 
 10. In [ACM][acm]'s UI, verify _Submariner_ is healthy:<br/>
-    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/doc/submariner.png" width="782" height="352" alt="">
+    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/docs/submariner.png" width="782" height="352" alt="">
 
 11. In [ACM][acm]'s UI, verify the _Managed Clusters_ are healthy:<br/>
-    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/doc/clusters.png" width="907" height="314" alt="">
+    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/docs/clusters.png" width="907" height="314" alt="">
 
 12. In the _Hub_'s UI, verify the _DR Policies_ are validated match your requirements:<br/>
-    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/doc/drpolicies.png" width="480" height="327" alt="">
+    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/docs/drpolicies.png" width="480" height="327" alt="">
 
 13. For every _Managed Cluster_, obtain the [RedHat GitOps][gitops] routes, and access them. There
     are two different servers. One for the _Pattern Framework_ and one for our _Pattern Instance_:
@@ -110,10 +110,10 @@ active-passive scenarios.
     ```
 
 14. For every _Managed Cluster_, verify the Framework's _GitOps_ server:<br/>
-    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/doc/mc-framework-gitops.png" width="316" height="167" alt="">
+    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/docs/mc-framework-gitops.png" width="316" height="167" alt="">
 
 15. For every _Managed Cluster_, verify the Pattern's _GitOps_ server:<br/>
-    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/doc/mc-pattern-gitops.png" width="316" height="166" alt="">
+    <img src="https://raw.githubusercontent.com/RHEcosystemAppEng/regional-resiliency-pattern/main/docs/mc-pattern-gitops.png" width="316" height="166" alt="">
 
 All Done.<br/>
 Get started deploying _DR Applications_ with the [Regional DR][regional] docs and the
@@ -130,15 +130,15 @@ by [ACM][acm]'s heartbeat mechanism, a failover will be triggered to all related
 <!--LINKS-->
 [acm]: https://www.redhat.com/en/technologies/management/advanced-cluster-management
 [devsecops]: https://validatedpatterns.io/patterns/devsecops/
-[example-app]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/doc/ExampleDRApp.md
+[example-app]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/docs/ExampleDRApp.md
 [install_config]: https://docs.openshift.com/container-platform/4.14/installing/installing_aws/installing-aws-customizations.html
 [gitops]: https://www.redhat.com/en/technologies/cloud-computing/openshift/gitops
-[maintenance]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/doc/Maintenance.md
+[maintenance]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/docs/Maintenance.md
 [oc]: https://docs.openshift.com/container-platform/4.14/cli_reference/openshift_cli/getting-started-cli.html
 [odf]: https://access.redhat.com/documentation/en-us/red_hat_openshift_data_foundation/4.14
 [openshift]: https://www.redhat.com/en/technologies/cloud-computing/openshift
 [rdrtrigger]: https://github.com/RHEcosystemAppEng/regional-dr-trigger-operator-chart
 [regional]: https://access.redhat.com/documentation/en-us/red_hat_openshift_data_foundation/4.14/html/configuring_openshift_data_foundation_disaster_recovery_for_openshift_workloads/rdr-solution
-[troubleshooting]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/doc/Troubleshooting.md
-[uninstalling]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/doc/Uninstalling.md
+[troubleshooting]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/docs/Troubleshooting.md
+[uninstalling]: https://github.com/RHEcosystemAppEng/regional-resiliency-pattern/blob/main/docs/Uninstalling.md
 [vp]: https://validatedpatterns.io/
