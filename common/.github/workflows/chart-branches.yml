@@ -15,6 +15,7 @@ on:
       - 'hashicorp-vault/**'
       - 'letsencrypt/**'
       - 'clustergroup/**'
+      - 'operator-install/**'
 
 jobs:
   changes:
@@ -28,11 +29,12 @@ jobs:
       hashicorp-vault: ${{ steps.filter.outputs.hashicorp-vault }}
       letsencrypt: ${{ steps.filter.outputs.letsencrypt }}
       clustergroup: ${{ steps.filter.outputs.clustergroup }}
+      operator-install: ${{ steps.filter.outputs.operator-install }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: |
@@ -46,12 +48,12 @@ jobs:
               - 'letsencrypt/**'
             clustergroup:
               - 'clustergroup/**'
+            operator-install:
+              - 'operator-install/**'
 
   acm:
     needs: changes
-    if: |
-      ${{ needs.changes.outputs.acm == 'true' }} &&
-      github.repository == 'validatedpatterns/common'
+    if: ${{ (needs.changes.outputs.acm == 'true') && (github.repository == 'validatedpatterns/common') }}
     uses: validatedpatterns/common/.github/workflows/chart-split.yml@main
     permissions:
       actions: write
@@ -63,9 +65,7 @@ jobs:
 
   golang-external-secrets:
     needs: changes
-    if: |
-      ${{ needs.changes.outputs.golang-external-secrets == 'true' }} &&
-      github.repository == 'validatedpatterns/common'
+    if: ${{ (needs.changes.outputs.golang-external-secrets == 'true') && (github.repository == 'validatedpatterns/common') }}
     uses: validatedpatterns/common/.github/workflows/chart-split.yml@main
     permissions:
       actions: write
@@ -77,9 +77,7 @@ jobs:
 
   hashicorp-vault:
     needs: changes
-    if: |
-      ${{ needs.changes.outputs.hashicorp-vault == 'true' }} &&
-      github.repository == 'validatedpatterns/common'
+    if: ${{ (needs.changes.outputs.hashicorp-vault == 'true') && (github.repository == 'validatedpatterns/common') }}
     uses: validatedpatterns/common/.github/workflows/chart-split.yml@main
     permissions:
       actions: write
@@ -91,9 +89,7 @@ jobs:
 
   letsencrypt:
     needs: changes
-    if: |
-      ${{ needs.changes.outputs.letsencrypt == 'true' }} &&
-      github.repository == 'validatedpatterns/common'
+    if: ${{ (needs.changes.outputs.letsencrypt == 'true') && (github.repository == 'validatedpatterns/common') }}
     uses: validatedpatterns/common/.github/workflows/chart-split.yml@main
     permissions:
       actions: write
@@ -105,9 +101,7 @@ jobs:
 
   clustergroup:
     needs: changes
-    if: |
-      ${{ needs.changes.outputs.clustergroup == 'true' }} &&
-      github.repository == 'validatedpatterns/common'
+    if: ${{ (needs.changes.outputs.clustergroup == 'true') && (github.repository == 'validatedpatterns/common') }}
     uses: validatedpatterns/common/.github/workflows/chart-split.yml@main
     permissions:
       actions: write
@@ -115,4 +109,18 @@ jobs:
     with:
       chart_name: clustergroup
       target_repository: validatedpatterns/clustergroup-chart
+    secrets: inherit
+
+  # The folder is named 'operator-install' but the chart is called 'pattern-install'
+  operator-install:
+    needs: changes
+    if: ${{ (needs.changes.outputs.operator-install == 'true') && (github.repository == 'validatedpatterns/common') }}
+    uses: validatedpatterns/common/.github/workflows/chart-split.yml@main
+    permissions:
+      actions: write
+      contents: write
+    with:
+      # The name here is really the folder to be used for the chart
+      chart_name: operator-install
+      target_repository: validatedpatterns/pattern-install-chart
     secrets: inherit
