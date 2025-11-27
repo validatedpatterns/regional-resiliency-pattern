@@ -220,7 +220,7 @@
         },
         "account": {
           "type": "string",
-          "description": "The account for the Git provider. Accounts allow you to organize and control access to that code. There are three types of accounts on GitHub.  Personal accounts Organization accounts Enterprise accounts e.g. hybrid-cloud-patterns or claudiol"
+          "description": "The account for the Git provider. Accounts allow you to organize and control access to that code. There are three types of accounts on GitHub.  Personal accounts Organization accounts Enterprise accounts e.g. validatedpatterns or claudiol"
         },
         "email": {
           "type": "string",

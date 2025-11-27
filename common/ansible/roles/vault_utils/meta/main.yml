@@ -1,8 +1,8 @@
 galaxy_info:
-  author: Validated Patterns Team https://github.com/hybrid-cloud-patterns/
+  author: Validated Patterns Team https://github.com/validatedpatterns/
   description: Utilities to manage vault in kubernetes (init, unseal, etc)
 
-  issue_tracker_url: https://github.com/hybrid-cloud-patterns/common/issues
+  issue_tracker_url: https://github.com/validatedpatterns/common/issues
   license: Apache-2.0
   min_ansible_version: "2.1"
 

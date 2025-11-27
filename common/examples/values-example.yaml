@@ -130,7 +130,7 @@ clusterGroup:
   managedClusterGroups:
   - name: acm-edge
     # Optional - Point to a different repo
-    # repoURL: https://github.com/hybrid-cloud-patterns/mySite.git
+    # repoURL: https://github.com/validatedpatterns/mySite.git
     # Must contain values-{clustergroupname}.yaml at the top level
     targetRevision: main
     helmOverrides:

@@ -11,7 +11,7 @@ spec:
   source:
     type: Git
     git:
-      uri: https://github.com/hybrid-cloud-patterns/s2i-cli-tools
+      uri: https://github.com/validatedpatterns/s2i-cli-tools
     contextDir: containerfiles
   strategy:
     type: Docker

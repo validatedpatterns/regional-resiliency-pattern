@@ -1,4 +1,4 @@
-apiVersion: gitops.hybrid-cloud-patterns.io/v1alpha1
+apiVersion: gitops.validatedpatterns.io/v1alpha1
 kind: Pattern
 metadata:
   name: {{ .Release.Name }}

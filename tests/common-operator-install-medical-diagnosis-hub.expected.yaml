@@ -15,7 +15,7 @@ data:
   # gitops.name: GitOpsDefaultPackageName
 ---
 # Source: pattern-install/templates/pattern.yaml
-apiVersion: gitops.hybrid-cloud-patterns.io/v1alpha1
+apiVersion: gitops.validatedpatterns.io/v1alpha1
 kind: Pattern
 metadata:
   name: common-operator-install

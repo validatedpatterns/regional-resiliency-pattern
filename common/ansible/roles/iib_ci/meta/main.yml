@@ -1,8 +1,8 @@
 galaxy_info:
-  author: Validated Patterns Team https://github.com/hybrid-cloud-patterns/
+  author: Validated Patterns Team https://github.com/validatedpatterns/
   description: Internal module to work with IIBs (Image Index Bundles)
 
-  issue_tracker_url: https://github.com/hybrid-cloud-patterns/common/issues
+  issue_tracker_url: https://github.com/validatedpatterns/common/issues
   license: Apache-2.0
   min_ansible_version: "2.1"
 
