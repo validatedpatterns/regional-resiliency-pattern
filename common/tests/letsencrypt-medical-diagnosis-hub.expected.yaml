@@ -88,7 +88,7 @@ spec:
     kind: ClusterIssuer
   subject:
     organizations:
-    - hybrid-cloud-patterns.io
+    - validatedpatterns.io
 ---
 # Source: letsencrypt/templates/wildcard-cert.yaml
 apiVersion: cert-manager.io/v1
@@ -112,7 +112,7 @@ spec:
     kind: ClusterIssuer
   subject:
     organizations:
-    - hybrid-cloud-patterns.io
+    - validatedpatterns.io
 ---
 # Source: letsencrypt/templates/issuer.yaml
 apiVersion: cert-manager.io/v1

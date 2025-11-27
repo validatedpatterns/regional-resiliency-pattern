@@ -36,9 +36,9 @@ letsencrypt:
   # server: https://acme-v02.api.letsencrypt.org/directory
 
   # These are only for metadata in the certificates
-  ## @param letsencrypt.organizations List of organization names to be put in a certificate (Defaults to [hybrid-cloud-patterns.io])
+  ## @param letsencrypt.organizations List of organization names to be put in a certificate (Defaults to [validatedpatterns.io])
   organizations:
-    - hybrid-cloud-patterns.io
+    - validatedpatterns.io
   ## @param letsencrypt.usages List of certificate uses. See API cert-manager.io/v1.KeyUsage (Defaults to [server auth])
   usages:
     - server auth
