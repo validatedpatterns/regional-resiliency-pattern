@@ -370,7 +370,7 @@ spec:
     description: The namespace for Stage environments
     name: DEV_NAMESPACE
     type: string
-  - default: https://github.com/hybrid-cloud-patterns/spring-petclinic-gatling
+  - default: https://github.com/validatedpatterns/spring-petclinic-gatling
     description: The application test cases git repository
     name: APP_TESTS_GIT
     type: string
@@ -702,7 +702,7 @@ spec:
     description: The namespace for Stage environments
     name: DEV_NAMESPACE
     type: string
-  - default: https://github.com/hybrid-cloud-patterns/spring-petclinic-gatling
+  - default: https://github.com/validatedpatterns/spring-petclinic-gatling
     description: The application test cases git repository
     name: APP_TESTS_GIT
     type: string
@@ -1034,7 +1034,7 @@ spec:
     description: The namespace for Stage environments
     name: DEV_NAMESPACE
     type: string
-  - default: https://github.com/hybrid-cloud-patterns/spring-petclinic-gatling
+  - default: https://github.com/validatedpatterns/spring-petclinic-gatling
     description: The application test cases git repository
     name: APP_TESTS_GIT
     type: string

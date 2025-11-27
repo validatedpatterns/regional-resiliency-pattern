@@ -59,7 +59,7 @@ supports generating secrets directly into the vault and also prompting the user
 for a secret.
 
 By default, the first file that will looked up is
-`~/.config/hybrid-cloud-patterns/values-secret-<patternname>.yaml`, then
+`~/.config/validatedpatterns/values-secret-<patternname>.yaml`, then
 `~/.config/validated-patterns/values-secret-<patternname>.yaml`,
 `~/values-secret-<patternname>.yaml` and should that not exist it will look for
 `~/values-secret.yaml`.

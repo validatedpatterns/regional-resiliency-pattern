@@ -319,7 +319,7 @@ data:
       clusterVersion: "4.12"
       extraValueFiles: []
       git:
-        account: hybrid-cloud-patterns
+        account: validatedpatterns
         dev_revision: main
         email: someone@somewhere.com
         hostname: github.com

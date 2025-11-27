@@ -49,7 +49,7 @@ metadata:
   namespace: manuela-ci
   annotations:
     # Tekton magic, see https://tekton.dev/vault/pipelines-v0.15.2/auth/
-    tekton.dev/git-0: https://github.com/hybrid-cloud-patterns
+    tekton.dev/git-0: https://github.com/validatedpatterns
 type: kubernetes.io/basic-auth
 stringData:
   username: STRING

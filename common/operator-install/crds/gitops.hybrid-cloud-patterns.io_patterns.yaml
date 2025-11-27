@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: patterns.gitops.hybrid-cloud-patterns.io
+  name: patterns.gitops.validatedpatterns.io
 spec:
-  group: gitops.hybrid-cloud-patterns.io
+  group: gitops.validatedpatterns.io
   names:
     kind: Pattern
     listKind: PatternList
