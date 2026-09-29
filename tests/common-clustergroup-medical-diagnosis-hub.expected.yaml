@@ -361,6 +361,7 @@ data:
         backend: vault
       secure-registry:
         namespace: openshift-storage
+      singleArgoCD: true
       targetRevision: main
     main:
       clusterGroupName: hub
